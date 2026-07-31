@@ -40,6 +40,7 @@
  */
 'use strict';
 const fs = require('fs');
+const os = require('os');
 const path = require('path');
 const cp = require('child_process');
 const { pathToFileURL } = require('url');
@@ -63,6 +64,16 @@ function optVal(name, def) {
   return i >= 0 && argv[i + 1] ? argv[i + 1] : def;
 }
 const VALUE_OPTS = ['--src', '--out', '--combined-name'];
+const KNOWN_FLAGS = new Set([
+  '--html', '--pdf', '--combined-html', '--combined-pdf', '--all',
+  '--catering', '--home', ...VALUE_OPTS,
+]);
+for (const f of flags) {
+  if (!KNOWN_FLAGS.has(f)) {
+    console.error(`Unknown flag: ${f}\nRun with no arguments to see usage in the file header.`);
+    process.exit(1);
+  }
+}
 const positional = argv.filter((a, i) =>
   !a.startsWith('--') && !VALUE_OPTS.includes(argv[i - 1]));
 const FILTER = positional[0] || '';
@@ -83,7 +94,6 @@ if (!audiences.length) audiences = ['catering', 'home'];
 
 const DAY_ABBR = { Monday: 'Mon', Tuesday: 'Tue', Wednesday: 'Wed', Thursday: 'Thu',
                    Friday: 'Fri', Saturday: 'Sat', Sunday: 'Sun' };
-const DAY_INDEX = { Monday: 1, Tuesday: 2, Wednesday: 3, Thursday: 4, Friday: 5, Saturday: 6, Sunday: 7 };
 
 // ---------------------------------------------------------------- helpers
 function esc(s) {
@@ -196,38 +206,39 @@ function parseIngredients(body) {
 
 // ---------------------------------------------------------------- derive
 function derive(file, rec) {
-  const m = rec.meta;
-  const dayFull = (m.day || '').trim();               // "Sunday 4"
-  const dw = dayFull.match(/^([A-Za-z]+)\s*(-?\d+)?/) || [];
-  rec.weekday = dw[1] || '';
-  rec.dayNum = dw[2] != null ? dw[2] : '';
-  rec.meal = (m.meal || '').trim();                    // "Dinner"
-  rec.theme = (m.theme || '').trim();                  // cuisine
-  rec.type = (m.type || 'side').trim();                // colour class
-  rec.feeds = (m.feeds || '').trim();
+  const meta = rec.meta;
+  const dayFull = (meta.day || '').trim();             // "Sunday 4"
+  const weekdayMatch = dayFull.match(/^([A-Za-z]+)\s*(-?\d+)?/) || [];
+  rec.weekday = weekdayMatch[1] || '';
+  rec.dayNum = weekdayMatch[2] != null ? weekdayMatch[2] : '';
+  rec.meal = (meta.meal || '').trim();                  // "Dinner"
+  rec.theme = (meta.theme || '').trim();                // cuisine
+  rec.type = (meta.type || 'side').trim();               // colour class
+  rec.feeds = (meta.feeds || '').trim();
   // Feeds may carry a home figure in parens, e.g. "150 (4)" -> catering 150, home 4
-  const fmFeeds = rec.feeds.match(/^(.*?)\s*\((.*?)\)\s*$/);
-  rec.feedsCatering = fmFeeds ? fmFeeds[1].trim() : rec.feeds;
-  rec.feedsHome = fmFeeds ? fmFeeds[2].trim() : '';
-  rec.vessel = (m.vessel || '').trim();
-  rec.diet = (m.diet || '').trim();
-  rec.label = (m.label || '').trim();
-  rec.source = parseSource(m.source);
+  const feedsMatch = rec.feeds.match(/^(.*?)\s*\((.*?)\)\s*$/);
+  rec.feedsCatering = feedsMatch ? feedsMatch[1].trim() : rec.feeds;
+  rec.feedsHome = feedsMatch ? feedsMatch[2].trim() : '';
+  rec.vessel = (meta.vessel || '').trim();
+  rec.diet = (meta.diet || '').trim();
+  rec.label = (meta.label || '').trim();
+  rec.source = parseSource(meta.source);
   const baseName = path.basename(file, '.md');
-  const om = baseName.match(/^(\d+)\s+(.*)$/);
-  rec.order = om ? om[1] : '';
-  rec.fileName = (om ? om[2] : baseName).trim();  // output filename comes from the source filename
-  rec.name = rec.title || rec.fileName;           // display title comes from the h1
+  const orderMatch = baseName.match(/^(\d+)\s+(.*)$/);
+  rec.order = orderMatch ? orderMatch[1] : '';
+  rec.fileName = (orderMatch ? orderMatch[2] : baseName).trim(); // output filename comes from the source filename
+  rec.name = rec.title || rec.fileName;                          // display title comes from the h1
   // reconstruct the flat output filename, matching the original scheme
-  const abbr = DAY_ABBR[rec.weekday] || rec.weekday;
-  const ml = /^l/i.test(rec.meal) ? 'L' : 'D';
-  const slot = abbr && rec.dayNum !== '' ? `${abbr} ${rec.dayNum}${ml} ` : '';
-  const cui = rec.theme ? `${rec.theme} ` : '';
-  const ord = rec.order ? `${rec.order} ` : '';
-  rec.outBase = `${slot}${cui}- ${ord}${rec.fileName}`.replace(/\s+/g, ' ').trim();
-  if (!slot && !cui) rec.outBase = rec.fileName;
+  const dayAbbr = DAY_ABBR[rec.weekday] || rec.weekday;
+  const isLunch = /^l/i.test(rec.meal);
+  const mealAbbr = isLunch ? 'L' : 'D';
+  const daySlot = dayAbbr && rec.dayNum !== '' ? `${dayAbbr} ${rec.dayNum}${mealAbbr} ` : '';
+  const cuisinePrefix = rec.theme ? `${rec.theme} ` : '';
+  const orderPrefix = rec.order ? `${rec.order} ` : '';
+  rec.outBase = `${daySlot}${cuisinePrefix}- ${orderPrefix}${rec.fileName}`.replace(/\s+/g, ' ').trim();
+  if (!daySlot && !cuisinePrefix) rec.outBase = rec.fileName;
   rec.sortKey = [rec.dayNum === '' ? 99 : parseInt(rec.dayNum, 10),
-                 /^l/i.test(rec.meal) ? 0 : 1,
+                 isLunch ? 0 : 1,
                  rec.order === '' ? 99 : parseInt(rec.order, 10),
                  rec.name];
   return rec;
@@ -414,7 +425,6 @@ function htmlToPdf(htmlAbs, pdfAbs) {
   if (!b) throw new Error(
     'No Chromium browser found for PDF. Install Microsoft Edge or Google Chrome, ' +
     'or set CHROME_PATH, or install Docker. HTML output is unaffected.');
-  const tmp = fs.mkdtempSync(path.join(require('os').tmpdir(), 'emf-'));
   const common = ['--headless=new', '--disable-gpu', '--no-pdf-header-footer', '--no-first-run',
                   '--no-default-browser-check'];
   if (b.docker) {
@@ -423,9 +433,16 @@ function htmlToPdf(htmlAbs, pdfAbs) {
     cp.execFileSync('docker', ['run', '--rm', '-v', `${root}:/work`, 'zenika/alpine-chrome',
       '--no-sandbox', ...common, `--print-to-pdf=/work/${rel(pdfAbs)}`,
       `file:///work/${rel(htmlAbs)}`], { stdio: 'inherit' });
-  } else {
+    return;
+  }
+  // Each headless run needs its own profile dir; clean it up so repeated
+  // builds (one per card) don't litter the OS temp folder.
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'emf-'));
+  try {
     cp.execFileSync(b.cmd, [...common, '--user-data-dir=' + tmp,
       '--print-to-pdf=' + pdfAbs, pathToFileURL(htmlAbs).href], { stdio: ['ignore', 'ignore', 'inherit'] });
+  } finally {
+    fs.rmSync(tmp, { recursive: true, force: true });
   }
 }
 
