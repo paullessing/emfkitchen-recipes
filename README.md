@@ -25,12 +25,19 @@ Recipes/
 │       e.g.  src/Sunday 4/Dinner - Indian/1 Tarka Dal.md
 ├── build.js          the generator: Markdown -> HTML / PDF
 ├── import-html.js    one-time HTML -> Markdown importer (already run; keep for reference)
-├── catering/         GENERATED kitchen cards — do not hand-edit
-└── home/             GENERATED home-cook cards
+└── dist/             GENERATED site — do not hand-edit (git-ignored; rebuilt any time)
+    ├── index.html    landing page -> catering/index.html + home/index.html
+    ├── recipe.css    copied in, so dist/ is self-contained
+    ├── catering/     kitchen cards + its own index.html
+    └── home/         home-cook cards + its own index.html
 ```
 
+Run `node build.js`, then open `dist/index.html` — it links to each version's index,
+which lists every recipe grouped by day. The whole `dist/` folder stands alone (styles
+copied in), so you can zip it or drop it on a web host as-is.
+
 The numeric prefix on a filename (`1 Tarka Dal.md`) sets the order within a menu and
-the `— 1` in the output filename. Rename a `.md` file to rename its output card.
+the `- 1` in the output filename. Rename a `.md` file to rename its output card.
 
 ## Writing a recipe
 
@@ -123,15 +130,15 @@ behaves exactly as before.
 Each recipe can carry two quantities. The **Catering** column is the 150-scale figure;
 the **Home** column is for someone cooking it at home. From the same source file:
 
-- **Kitchen version** (`Recipes/catering/*.html`) — Catering amounts only. This is the default.
+- **Kitchen version** (`dist/catering/*.html`) — Catering amounts only. This is the default.
 - **Home version** (`Recipes/home/*.html`) — the Home amount is shown first, with the
   catering figure beneath it in grey (`catering: 18 kg`). Rows with no Home amount fall
   back to the catering figure, so a recipe still renders before you have filled in Home.
 
 ```
 node build.js              build both versions
-node build.js --catering   only the kitchen version -> Recipes/catering/
-node build.js --home       only the home version    -> Recipes/home/
+node build.js --catering   only the kitchen version -> dist/catering/
+node build.js --home       only the home version    -> dist/home/
 ```
 
 ## All options
@@ -150,8 +157,9 @@ Version
   (omit both -> build both)
 
 Paths
-  --src <dir>       sources    (default ./src, or SOURCE_DIR)
-  --out <dir>       output root (default .,     or OUTPUT_DIR)
+  --src <dir>            sources    (default ./src, or SOURCE_DIR)
+  --out <dir>            output root (default ./dist, or OUTPUT_DIR)
+  --combined-name <name> combined file base name (default COMBINED_NAME)
 
 Filter
   <text>            only recipes whose path contains <text>
@@ -167,15 +175,15 @@ The folder and file names live in a `CONFIG` block at the top of `build.js` — 
 defaults there:
 
 ```
-const OUTPUT_DIR    = '.';                          // base output dir (--out overrides)
+const OUTPUT_DIR    = 'dist';                       // base output dir (--out overrides)
 const SOURCE_DIR    = 'src';                        // sources        (--src overrides)
 const CATERING_DIR  = 'catering';                   // kitchen cards -> OUTPUT_DIR/catering/
 const HOME_DIR      = 'home';                        // home cards    -> OUTPUT_DIR/home/
 const COMBINED_NAME = 'EMF Kitchen - All Recipes';  // combined file base name
 ```
 
-The base output directory is also settable per-run without editing the file:
-`node build.js --out ../build`.
+The base output directory and combined-file name are also settable per-run without
+editing the file: `node build.js --out ../build --combined-name "EMF 2026 Cookbook"`.
 
 ## PDF details
 

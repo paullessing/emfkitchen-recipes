@@ -19,13 +19,18 @@
  *   --all             = --html --pdf --combined-html --combined-pdf
  *
  * WHICH VERSION
- *   --catering        kitchen copy: 150-scale amounts only        -> Recipes/catering/
- *   --home            dual copy: home amount first, catering muted -> Recipes/home/
+ *   --catering        kitchen copy: 150-scale amounts only        -> <out>/catering/
+ *   --home            dual copy: home amount first, catering muted -> <out>/home/
  *   (omit both = build both versions)
  *
+ * Builds a self-contained site under the output dir (default ./dist):
+ *   dist/index.html -> dist/catering/index.html and dist/home/index.html;
+ *   recipe.css is copied in so the folder stands alone.
+ *
  * PATHS
- *   --src <dir>       Markdown sources        (default ./src)
- *   --out <dir>       output root             (default .)
+ *   --src <dir>            Markdown sources          (default ./src / SOURCE_DIR)
+ *   --out <dir>            output root               (default .    / OUTPUT_DIR)
+ *   --combined-name <name> base name for combined files (default COMBINED_NAME)
  *
  * EXAMPLES
  *   node build.js                     rebuild every HTML card, both versions
@@ -43,11 +48,11 @@ const { pathToFileURL } = require('url');
 // Edit these defaults to change the output layout. The base output
 // directory and the source directory can also be overridden on the
 // command line (--out / --src), which take precedence over these.
-const OUTPUT_DIR    = '.';         // base output directory (default; --out overrides)
+const OUTPUT_DIR    = 'dist';      // base output directory (default; --out overrides)
 const SOURCE_DIR    = 'src';       // markdown sources        (default; --src overrides)
 const CATERING_DIR  = 'catering';  // kitchen cards  -> <OUTPUT_DIR>/<CATERING_DIR>/
 const HOME_DIR      = 'home';      // home cards     -> <OUTPUT_DIR>/<HOME_DIR>/
-const COMBINED_NAME = 'EMF Kitchen - All Recipes'; // base name of the combined file(s)
+const COMBINED_NAME = 'EMF Kitchen - All Recipes'; // combined file base name (--combined-name overrides)
 // ===============================================================
 
 // ---------------------------------------------------------------- CLI
@@ -57,11 +62,13 @@ function optVal(name, def) {
   const i = argv.indexOf(name);
   return i >= 0 && argv[i + 1] ? argv[i + 1] : def;
 }
+const VALUE_OPTS = ['--src', '--out', '--combined-name'];
 const positional = argv.filter((a, i) =>
-  !a.startsWith('--') && argv[i - 1] !== '--src' && argv[i - 1] !== '--out');
+  !a.startsWith('--') && !VALUE_OPTS.includes(argv[i - 1]));
 const FILTER = positional[0] || '';
 const SRC = path.resolve(optVal('--src', SOURCE_DIR));
 const OUT = path.resolve(optVal('--out', OUTPUT_DIR));
+const COMBINED = optVal('--combined-name', COMBINED_NAME);
 if (flags.has('--all')) ['--html', '--pdf', '--combined-html', '--combined-pdf'].forEach(f => flags.add(f));
 let wantHtml = flags.has('--html');
 const wantPdf = flags.has('--pdf');
@@ -339,7 +346,7 @@ function combined(recs, audience, cssText) {
   const sections = recs.map(rec =>
     `<section class="t-${esc(rec.type)}">\n<div class="page">\n${pageFragment(rec, audience)}\n</div>\n</section>`
   ).join('\n');
-  const title = audience === 'home' ? `${COMBINED_NAME} (Home)` : COMBINED_NAME;
+  const title = audience === 'home' ? `${COMBINED} (Home)` : COMBINED;
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -422,6 +429,68 @@ function htmlToPdf(htmlAbs, pdfAbs) {
   }
 }
 
+// ---------------------------------------------------------------- index pages
+function indexDoc(cssHref, title, inner) {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>${esc(title)}</title>
+  <link rel="stylesheet" href="${cssHref}">
+</head>
+<body>
+<div class="page">
+${inner}
+</div>
+</body>
+</html>
+`;
+}
+const AUDIENCE_LABEL = { catering: 'Catering', home: 'Home Cook' };
+// dist/index.html : landing page linking to each version's own index
+function rootIndex(builtAudiences) {
+  let items = '';
+  for (const a of builtAudiences) {
+    const sub = a === 'home' ? HOME_DIR : CATERING_DIR;
+    items += `    <li><a href="${esc(sub)}/index.html">${esc(AUDIENCE_LABEL[a] || a)}</a></li>\n`;
+  }
+  const inner = `  <header>
+    <div class="kicker">EMF Kitchen 2026</div>
+    <h1>Recipes</h1>
+  </header>
+  <p>Choose a version:</p>
+  <ul>
+${items}  </ul>`;
+  return indexDoc('recipe.css', 'EMF Kitchen 2026 — Recipes', inner);
+}
+// dist/<version>/index.html : contents of one version, grouped by day/meal
+function audienceIndex(recs, audience, cssHref, combinedHref) {
+  const label = AUDIENCE_LABEL[audience] || audience;
+  const nav = [];
+  if (combinedHref) nav.push(`<a href="${esc(combinedHref)}">Everything on one page →</a>`);
+  nav.push(`<a href="../index.html">← All versions</a>`);
+  let inner = `  <header>
+    <div class="kicker">EMF Kitchen 2026 · ${esc(label)}</div>
+    <h1>All recipes</h1>
+  </header>
+  <p>${nav.join(' · ')}</p>\n`;
+  let lastKey = null, open = false;
+  for (const rec of recs) {
+    const key = `${rec.weekday}${rec.dayNum !== '' ? ' ' + rec.dayNum : ''}` +
+                `${rec.meal ? ' · ' + rec.meal : ''}${rec.theme ? ' · ' + rec.theme : ''}`;
+    if (key !== lastKey) {
+      if (open) inner += '  </ul>\n';
+      inner += `  <h2>${esc(key)}</h2>\n  <ul>\n`;
+      open = true; lastKey = key;
+    }
+    const href = fsSafe(rec.outBase) + '.html';
+    inner += `    <li><a href="${esc(href)}">${esc(rec.name)}</a></li>\n`;
+  }
+  if (open) inner += '  </ul>';
+  return indexDoc(cssHref, `${label} — EMF Kitchen`, inner.replace(/\n$/, ''));
+}
+
 // ---------------------------------------------------------------- main
 function main() {
   if (!fs.existsSync(SRC)) { console.error(`No source folder at ${SRC}. Run import-html.js first?`); process.exit(1); }
@@ -436,8 +505,13 @@ function main() {
     }
     return 0;
   });
-  const cssPath = path.join(OUT, 'recipe.css');
-  const cssText = fs.existsSync(cssPath) ? fs.readFileSync(cssPath, 'utf8') : '';
+  // Source recipe.css lives next to this script (or already in OUT). Copy it into
+  // OUT so the output tree (e.g. dist/) is self-contained.
+  fs.mkdirSync(OUT, { recursive: true });
+  const outCss = path.join(OUT, 'recipe.css');
+  const srcCss = fs.existsSync(outCss) ? outCss : path.join(__dirname, 'recipe.css');
+  const cssText = fs.existsSync(srcCss) ? fs.readFileSync(srcCss, 'utf8') : '';
+  if (cssText && path.resolve(srcCss) !== path.resolve(outCss)) fs.writeFileSync(outCss, cssText);
   const pdfWanted = wantPdf || wantCombPdf;
   const canPdf = pdfWanted ? !!findBrowser() : false;
   if (pdfWanted && !canPdf) console.warn(
@@ -461,12 +535,19 @@ function main() {
       }
     }
     if (wantCombHtml || wantCombPdf) {
-      const label = audience === 'home' ? `${COMBINED_NAME} (Home)` : COMBINED_NAME;
+      const label = audience === 'home' ? `${COMBINED} (Home)` : COMBINED;
       const combHtml = path.join(dir, label + '.html');
       fs.writeFileSync(combHtml, combined(recs, audience, cssText));
       if (wantCombPdf && canPdf) { htmlToPdf(combHtml, path.join(dir, label + '.pdf')); nPdf++; }
     }
+    if (wantHtml || wantCombHtml) {
+      const combinedBase = audience === 'home' ? `${COMBINED} (Home)` : COMBINED;
+      const cf = path.join(dir, combinedBase + '.html');
+      const combinedHref = fs.existsSync(cf) ? combinedBase + '.html' : null;
+      fs.writeFileSync(path.join(dir, 'index.html'), audienceIndex(recs, audience, cssHref, combinedHref));
+    }
   }
+  if (wantHtml || wantCombHtml) fs.writeFileSync(path.join(OUT, 'index.html'), rootIndex(audiences));
   const b = (wantPdf || wantCombPdf) ? findBrowser() : null;
   console.log(`Built ${nHtml} HTML card(s)` + (nPdf ? `, ${nPdf} PDF(s)` : '') +
               ` for [${audiences.join(', ')}] -> ${OUT}` +

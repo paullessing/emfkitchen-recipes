@@ -1,2 +1,2 @@
-catering/
-home/
+# generated site (run: node build.js)
+dist/
