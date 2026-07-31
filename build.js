@@ -39,6 +39,17 @@ const path = require('path');
 const cp = require('child_process');
 const { pathToFileURL } = require('url');
 
+// ============================ CONFIG ============================
+// Edit these defaults to change the output layout. The base output
+// directory and the source directory can also be overridden on the
+// command line (--out / --src), which take precedence over these.
+const OUTPUT_DIR    = '.';         // base output directory (default; --out overrides)
+const SOURCE_DIR    = 'src';       // markdown sources        (default; --src overrides)
+const CATERING_DIR  = 'catering';  // kitchen cards  -> <OUTPUT_DIR>/<CATERING_DIR>/
+const HOME_DIR      = 'home';      // home cards     -> <OUTPUT_DIR>/<HOME_DIR>/
+const COMBINED_NAME = 'EMF Kitchen - All Recipes'; // base name of the combined file(s)
+// ===============================================================
+
 // ---------------------------------------------------------------- CLI
 const argv = process.argv.slice(2);
 const flags = new Set(argv.filter(a => a.startsWith('--')));
@@ -49,8 +60,8 @@ function optVal(name, def) {
 const positional = argv.filter((a, i) =>
   !a.startsWith('--') && argv[i - 1] !== '--src' && argv[i - 1] !== '--out');
 const FILTER = positional[0] || '';
-const SRC = path.resolve(optVal('--src', 'src'));
-const OUT = path.resolve(optVal('--out', '.'));
+const SRC = path.resolve(optVal('--src', SOURCE_DIR));
+const OUT = path.resolve(optVal('--out', OUTPUT_DIR));
 if (flags.has('--all')) ['--html', '--pdf', '--combined-html', '--combined-pdf'].forEach(f => flags.add(f));
 let wantHtml = flags.has('--html');
 const wantPdf = flags.has('--pdf');
@@ -328,7 +339,7 @@ function combined(recs, audience, cssText) {
   const sections = recs.map(rec =>
     `<section class="t-${esc(rec.type)}">\n<div class="page">\n${pageFragment(rec, audience)}\n</div>\n</section>`
   ).join('\n');
-  const title = audience === 'home' ? 'EMF Kitchen \u2014 All Recipes (Home)' : 'EMF Kitchen \u2014 All Recipes';
+  const title = audience === 'home' ? `${COMBINED_NAME} (Home)` : COMBINED_NAME;
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -435,8 +446,9 @@ function main() {
   let nHtml = 0, nPdf = 0;
 
   for (const audience of audiences) {
-    const dir = path.join(OUT, audience === 'home' ? 'home' : 'catering');
-    const cssHref = '../recipe.css'; // both variants live one level below recipe.css
+    const dir = path.join(OUT, audience === 'home' ? HOME_DIR : CATERING_DIR);
+    const depth = path.relative(OUT, dir).split(path.sep).filter(Boolean).length;
+    const cssHref = depth ? '../'.repeat(depth) + 'recipe.css' : 'recipe.css'; // back to recipe.css at OUT root
     fs.mkdirSync(dir, { recursive: true });
 
     if (wantHtml || wantPdf) {
@@ -449,7 +461,7 @@ function main() {
       }
     }
     if (wantCombHtml || wantCombPdf) {
-      const label = audience === 'home' ? 'EMF Kitchen - All Recipes (Home)' : 'EMF Kitchen - All Recipes';
+      const label = audience === 'home' ? `${COMBINED_NAME} (Home)` : COMBINED_NAME;
       const combHtml = path.join(dir, label + '.html');
       fs.writeFileSync(combHtml, combined(recs, audience, cssText));
       if (wantCombPdf && canPdf) { htmlToPdf(combHtml, path.join(dir, label + '.pdf')); nPdf++; }

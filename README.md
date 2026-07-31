@@ -150,8 +150,8 @@ Version
   (omit both -> build both)
 
 Paths
-  --src <dir>       sources (default ./src)
-  --out <dir>       output root (default .)
+  --src <dir>       sources    (default ./src, or SOURCE_DIR)
+  --out <dir>       output root (default .,     or OUTPUT_DIR)
 
 Filter
   <text>            only recipes whose path contains <text>
@@ -160,6 +160,22 @@ Filter
 The combined files are self-contained (styles inlined), so you can open
 `EMF Kitchen - All Recipes.html` in any browser and print to PDF with Ctrl-P even
 without running `--combined-pdf`.
+
+### Changing the output layout
+
+The folder and file names live in a `CONFIG` block at the top of `build.js` — edit the
+defaults there:
+
+```
+const OUTPUT_DIR    = '.';                          // base output dir (--out overrides)
+const SOURCE_DIR    = 'src';                        // sources        (--src overrides)
+const CATERING_DIR  = 'catering';                   // kitchen cards -> OUTPUT_DIR/catering/
+const HOME_DIR      = 'home';                        // home cards    -> OUTPUT_DIR/home/
+const COMBINED_NAME = 'EMF Kitchen - All Recipes';  // combined file base name
+```
+
+The base output directory is also settable per-run without editing the file:
+`node build.js --out ../build`.
 
 ## PDF details
 
