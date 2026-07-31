@@ -44,12 +44,13 @@ the `- 1` in the output filename. Rename a `.md` file to rename its output card.
 A recipe file is ordinary Markdown: an `# H1` title, a one-line overview, a metadata
 table, then Ingredients / Method / Notes.
 
-````markdown
+```markdown
 # Tarka Dal
+
 Chickpea-and-red-lentil dal finished with a bloomed-spice tarka.
 
 | Field  | Value    |
-|--------|----------|
+| ------ | -------- |
 | Type   | vegmain  |
 | Feeds  | 150 (4)  |
 | Vessel | Kipper   |
@@ -61,7 +62,7 @@ Chickpea-and-red-lentil dal finished with a bloomed-spice tarka.
 ## Ingredients
 
 | Ingredient      | Catering | Home  | Prep            |
-|-----------------|----------|-------|-----------------|
+| --------------- | -------- | ----- | --------------- |
 | Dried Chickpeas | 18 kg    | 120 g | wash before use |
 | Onions          | 24 kg    | 1 kg  | medium cubes    |
 | Oil             | 1.5 l    | 15 ml |                 |
@@ -74,21 +75,21 @@ Chickpea-and-red-lentil dal finished with a bloomed-spice tarka.
 ## Notes
 
 **Optional.** Omit this whole section if there is no note.
-````
+```
 
 ### Metadata fields
 
-| Field    | Purpose                                                                 |
-|----------|-------------------------------------------------------------------------|
-| `Type`   | Colour theme: `vegmain`, `meat`, `side`, `cold`, or `dessert`           |
+| Field    | Purpose                                                                                                                                                                  |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `Type`   | Colour theme: `vegmain`, `meat`, `side`, `cold`, or `dessert`                                                                                                            |
 | `Feeds`  | Yield chip. Optionally add the home serving count in parens, `150 (4)`. Kitchen card shows `Yield 150`; home card shows `Serves 150 (4)`. Omit the row to hide the chip. |
-| `Vessel` | "Vessel" chip (optional)                                                |
-| `Diet`   | "Diet" chip; also the default footer label                              |
-| `Day`    | e.g. `Sunday 4` — drives the footer and the `Sun 4D` filename           |
-| `Meal`   | `Lunch` or `Dinner` — drives the footer and the `…D` / `…L` filename    |
-| `Theme`  | Cuisine, e.g. `Indian` — shown in the kicker and the folder name        |
-| `Label`  | Optional footer text if you want more than the plain diet (e.g. `Vegan (oat milk)`) |
-| `Source` | Optional credit link, written as `[text](url)` — shown in the footer    |
+| `Vessel` | "Vessel" chip (optional)                                                                                                                                                 |
+| `Diet`   | "Diet" chip; also the default footer label                                                                                                                               |
+| `Day`    | e.g. `Sunday 4` — drives the footer and the `Sun 4D` filename                                                                                                            |
+| `Meal`   | `Lunch` or `Dinner` — drives the footer and the `…D` / `…L` filename                                                                                                     |
+| `Theme`  | Cuisine, e.g. `Indian` — shown in the kicker and the folder name                                                                                                         |
+| `Label`  | Optional footer text if you want more than the plain diet (e.g. `Vegan (oat milk)`)                                                                                      |
+| `Source` | Optional credit link, written as `[text](url)` — shown in the footer                                                                                                     |
 
 Only fields you include appear. `**bold**` works in the overview, notes, and method.
 An ingredient row with a name but no amounts renders as a full-width note row
@@ -103,20 +104,20 @@ the `## Ingredients` block — the rows above them are shared, each sub-table is
 ## Ingredients
 
 | Ingredient | Catering | Home  | Prep  |
-|------------|----------|-------|-------|
+| ---------- | -------- | ----- | ----- |
 | Rice       | 12 kg    | 300 g |       |
 | Onions     | 8 kg     | 200 g | diced |
 
 ### Vegan
 
 | Ingredient | Catering | Home  | Prep  |
-|------------|----------|-------|-------|
+| ---------- | -------- | ----- | ----- |
 | Tofu       | 8 kg     | 200 g | cubed |
 
 ### Meat
 
 | Ingredient    | Catering | Home  | Prep  |
-|---------------|----------|-------|-------|
+| ------------- | -------- | ----- | ----- |
 | Chicken thigh | 10 kg    | 250 g | diced |
 ```
 

@@ -1,0 +1,5 @@
+# generated site (run: node build.js)
+dist/
+
+# recipe content, not code — don't reformat tables/prose
+src/
