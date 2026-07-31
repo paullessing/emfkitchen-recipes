@@ -1,0 +1,49 @@
+name: Build & publish recipes
+
+# Build the static site on every push to main and publish the generated
+# dist/ folder to the `recipes` branch. Point GitHub Pages at that branch
+# (Settings -> Pages -> Deploy from a branch -> recipes / root).
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# allow the workflow to push the built site back to the repo
+permissions:
+  contents: write
+
+# never let two deploys race
+concurrency:
+  group: publish-recipes
+  cancel-in-progress: true
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Build the site
+        run: node build.js --html --combined-html
+
+      - name: Disable Jekyll processing
+        run: touch dist/.nojekyll
+
+      - name: Publish dist/ to the recipes branch
+        run: |
+          cd dist
+          git init -q -b recipes
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Build from ${GITHUB_SHA::7}"
+          git push -f "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" recipes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

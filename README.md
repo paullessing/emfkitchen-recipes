@@ -199,6 +199,22 @@ To force a specific browser:
 $env:CHROME_PATH="C:\Program Files\Google\Chrome\Application\chrome.exe"; node build.js --pdf
 ```
 
+## Publishing to GitHub Pages
+
+Pushing to `main` triggers `.github/workflows/deploy.yml`, which builds the site and
+force-pushes the `dist/` folder to a branch called **`recipes`**. Point GitHub Pages at
+that branch and every push to `main` republishes the site.
+
+One-time setup on GitHub:
+
+1. Push this repo (with `main` as the default branch).
+2. After the first workflow run, go to **Settings → Pages → Build and deployment**,
+   set **Source: Deploy from a branch**, **Branch: `recipes` / `(root)`**, and Save.
+
+The workflow uses the built-in `GITHUB_TOKEN` and already requests write permission.
+If the push is ever rejected, enable **Settings → Actions → General → Workflow
+permissions → Read and write permissions**. Only HTML is built in CI (no PDFs).
+
 ## Re-importing from HTML
 
 `import-html.js` was used once to convert the original HTML cards into `src/`. You
