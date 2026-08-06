@@ -14,22 +14,25 @@ Thai braised pork knuckle in a spiced soy master-stock with star anise, cinnamon
 
 ## Ingredients
 
-| Ingredient             | Catering | Home | Prep |
-|------------------------|----------|------|------|
-| Pork knuckle           | 24 kg    |      |      |
-| Soy Sauce              | 1280 ml  |      |      |
-| Oyster Sauce           | 1280 ml  |      |      |
-| Black Soy Sauce        | 640 ml   |      |      |
-| Palm Sugar             | 1.6 kg   |      |      |
-| Fresh Coriander        | 0 kg     |      |      |
-| Garlic                 | 500 g    |      |      |
-| Cinnamon Sticks        | 160 g    |      |      |
-| Star Anise             | 128 g    |      |      |
-| Szechuan Peppercorns   | 80 g     |      |      |
-| White Pepper           | 32 g     |      |      |
-| Galangal               | 1.6 kg   |      |      |
-| Shiitake Mushrooms     | 640 g    |      |      |
-| Pickled Mustard Greens | 12 bags  |      |      |
+| Ingredient             | Catering | Home             | Prep | Notes                 |
+|------------------------|----------|------------------|------|-----------------------|
+| Pork knuckle           | 24 kg    | 1.8 kg (1 large) |      | Bone in               |
+| Pork trotter           |          | 2 ea             |      |                       |
+| Light Soy Sauce        | 1280 ml  | 4 tbsp           |      |                       |
+| Oyster Sauce           | 1280 ml  | 3 tbsp           |      |                       |
+| Dark Soy Sauce         | 640 ml   | 1 tbsp           |      |                       |
+| Palm Sugar             | 1.6 kg   | 75 g             |      |                       |
+| Fresh Coriander        | 0 kg     |                  |      |                       |
+| Coriander Stems        |          | 60 g             |      | From 1 large bundle   |
+| Garlic                 | 500 g    |                  |      |                       |
+| Garlic cloves          | 500 g    | 5 ea             |      |                       |
+| Cinnamon Sticks        | 160 g    | 2 ea             |      |                       |
+| Star Anise             | 128 g    | 5 ea             |      |                       |
+| Szechuan Peppercorns   | 80 g     | 1 tsp            |      |                       |
+| White Pepper           | 32 g     | 1/2 tsp          |      | Sub black peppercorns |
+| Galangal               | 1.6 kg   | 10 slices (35 g) |      |                       |
+| Shiitake Mushrooms     | 640 g    | 100 g            |      |                       |
+| Pickled Mustard Greens | 12 bags  | 0.5 bag          |      |                       |
 
 ## Method
 
