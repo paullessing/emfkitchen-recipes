@@ -467,7 +467,19 @@ function renderMetaChips(rec, audience) {
  * @returns {string} HTML, one `<tr>` per ingredient, newline-joined.
  */
 function renderIngredientRows(ings, audience) {
+  // "Both present" means the home column carries at least one quantity in this
+  // table *and* the catering column does too, i.e. authors gave per-ingredient
+  // amounts for both audiences rather than a single shared figure. In that case
+  // each audience only sees the rows that actually specify its own amount.
+  // Otherwise (no home data at all) the home audience falls back to catering
+  // amounts for every row, same as before.
+  const bothPresent = ings.some(g => g.cat) && ings.some(g => g.home);
   return ings
+    .filter(g => {
+      const isNote = !g.cat && !g.home && !g.prep && g.name;
+      if (isNote || !bothPresent) return true;
+      return audience === 'home' ? !!g.home : !!g.cat;
+    })
     .map(g => {
       const isNote = !g.cat && !g.home && !g.prep && g.name;
       if (isNote) {
@@ -475,7 +487,8 @@ function renderIngredientRows(ings, audience) {
       }
       let amtCell;
       if (audience === 'home' && g.home) {
-        amtCell = `${escapeHtml(g.home)}<span class="amt-alt">catering: ${escapeHtml(g.cat || '—')}</span>`;
+        const alt = g.cat ? `<span class="amt-alt">catering: ${escapeHtml(g.cat)}</span>` : '';
+        amtCell = `${escapeHtml(g.home)}${alt}`;
       } else {
         amtCell = escapeHtml(g.cat || '—');
       }
