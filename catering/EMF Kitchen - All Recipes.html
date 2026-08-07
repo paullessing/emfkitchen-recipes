@@ -1,0 +1,5209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EMF Kitchen - All Recipes</title>
+  <style>
+/* EMF Kitchen — shared recipe-card styles. Tweak here to restyle every card. */
+:root {
+  --ink: #1c1c1c;
+  --mut: #5c5c5c;
+  --line: #d9d9d9;
+  --accent: #444;
+  --soft: #eee; /* default theme */
+}
+
+/* course themes: set on <body class="t-…"> */
+.t-vegmain {
+  --accent: #3f7d43;
+  --soft: #e9f2e9;
+}
+
+.t-meat {
+  --accent: #8a3b2e;
+  --soft: #f3e7e4;
+}
+
+.t-side {
+  --accent: #a9791f;
+  --soft: #f7efdd;
+}
+
+.t-cold {
+  --accent: #2f7d76;
+  --soft: #e5f1ef;
+}
+
+.t-dessert {
+  --accent: #c24a72;
+  --soft: #fbe9f0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family:
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+  color: var(--ink);
+  line-height: 1.4;
+}
+
+.page {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 26px 30px;
+}
+
+header {
+  border-bottom: 4px solid var(--accent);
+  padding-bottom: 10px;
+  margin-bottom: 6px;
+}
+
+.kicker {
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--mut);
+  font-weight: 600;
+}
+
+h1 {
+  font-size: 30px;
+  margin: 2px 0 6px;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0 2px;
+}
+
+.chip {
+  background: var(--soft);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 3px 11px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.chip b {
+  font-weight: 800;
+}
+
+.overview {
+  background: var(--soft);
+  border-left: 5px solid var(--accent);
+  border-radius: 6px;
+  padding: 11px 14px;
+  margin: 16px 0;
+  font-size: 14px;
+}
+
+.overview b {
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 12px;
+  color: var(--accent);
+}
+
+h2 {
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid var(--accent);
+  padding-bottom: 4px;
+  margin: 22px 0 10px;
+}
+
+/* variant sub-heading inside the Ingredients block (e.g. Vegan / Meat) */
+h3.variant {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 800;
+  color: var(--accent);
+  margin: 16px 0 6px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+th {
+  text-align: left;
+  background: var(--accent);
+  color: #fff;
+  padding: 6px 9px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+td {
+  padding: 6px 9px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+
+tr:nth-child(even) td {
+  background: #fafafa;
+}
+
+td.amt {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+td.prep {
+  color: var(--mut);
+}
+
+ol.method {
+  padding-left: 0;
+  counter-reset: step;
+  list-style: none;
+  margin: 0;
+}
+
+ol.method li {
+  position: relative;
+  padding: 9px 0 9px 42px;
+  border-bottom: 1px solid var(--line);
+  font-size: 15px;
+}
+
+ol.method li:before {
+  counter-increment: step;
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 28px;
+  height: 28px;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 28px;
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.note {
+  font-size: 13.5px;
+  background: #fff8e6;
+  border: 1px solid #f0dca0;
+  border-radius: 6px;
+  padding: 9px 12px;
+  margin: 14px 0;
+}
+
+footer {
+  margin-top: 22px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+  color: var(--mut);
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+a {
+  color: var(--accent);
+}
+
+@media print {
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .page {
+    max-width: none;
+    padding: 0;
+  }
+
+  @page {
+    margin: 14mm;
+  }
+}
+
+section { break-after: page; page-break-after: always; }
+section:last-child { break-after: auto; page-break-after: auto; }
+</style>
+  </head>
+<body>
+<section class="t-vegmain">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Tomato Pasta</div>
+    <h1>Tomato Sauce</h1>
+    <div class="meta"><span class="chip">Yield <b>180</b></span><span class="chip">Diet <b>Vegan</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Slow-cooked tomato sauce: onions and herbs fried off, deglazed with balsamic, then tinned tomatoes reduced with carrots that are puréed back in to sweeten and thicken.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Tinned Tomatoes</td>
+      <td class="amt">70 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Onions</td>
+      <td class="amt">25 kg</td>
+      <td class="prep">medium cubes</td>
+    </tr>
+    <tr>
+      <td>Oil</td>
+      <td class="amt">3 l</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Basil, Fresh</td>
+      <td class="amt">1 kg</td>
+      <td class="prep">Chopped or Chiffonade</td>
+    </tr>
+    <tr>
+      <td>Basil, Dried</td>
+      <td class="amt">0.1 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Oregano</td>
+      <td class="amt">0.1 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Provence Herbs</td>
+      <td class="amt">0.1 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Balsamic Vinegar</td>
+      <td class="amt">3 l</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Bay Leaves</td>
+      <td class="amt">0.2 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Carrots</td>
+      <td class="amt">15 kg</td>
+      <td class="prep">peeled, chopped very large</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Fry onions with fresh &amp; dried basil, oregano, Provence herbs and bay until lightly coloured.</li>
+    <li>Deglaze with balsamic vinegar.</li>
+    <li>Add the tinned tomatoes.</li>
+    <li>Add the large-cut carrots and reduce.</li>
+    <li>Optional: let it cool.</li>
+    <li>Remove the carrots, purée them, and stir back in.</li>
+    <li>Reheat and simmer to a thick sauce; season.</li>
+  </ol>
+  <footer><span>Vegan · gluten-free</span><span>Monday -2 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-side">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Tomato Pasta</div>
+    <h1>Cheese</h1>
+    <div class="meta"><span class="chip">Yield <b>180</b></span><span class="chip">Diet <b>Vegetarian</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Grated cheese offered as a topping for the pasta.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Grated Cheese</td>
+      <td class="amt">18 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Mozzarella, vegan</td>
+      <td class="amt">1 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Keep the grated cheese cold until service.</li>
+    <li>Put out as a self-serve topping for the pasta.</li>
+  </ol>
+  <footer><span>Vegetarian</span><span>Monday -2 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-side">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Tomato Pasta</div>
+    <h1>Pasta</h1>
+    <div class="meta"><span class="chip">Yield <b>180</b></span><span class="chip">Diet <b>Vegetarian</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Boiled penne or fusilli, with a gluten-free batch cooked separately.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Pasta, Penne or Fussili</td>
+      <td class="amt">30 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Oil</td>
+      <td class="amt">5 l</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h3 class="variant">Gluten Free</h3>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Pasta, Gluten Free</td>
+      <td class="amt">2 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Boil the pasta in well-salted water until al dente.</li>
+    <li>Cook the gluten-free pasta in a separate pan.</li>
+    <li>Drain and toss with a little oil to stop it sticking.</li>
+  </ol>
+  <footer><span>Vegetarian · GF option</span><span>Monday -2 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-side">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Tomato Pasta</div>
+    <h1>Garlic Bread</h1>
+    <div class="meta"><span class="chip">Yield <b>180</b></span><span class="chip">Diet <b>Vegetarian</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Par-baked baguettes spread with garlic-parsley margarine and baked.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Baguettes, Parbaked</td>
+      <td class="amt">45 ea</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Garlic</td>
+      <td class="amt">1 kg</td>
+      <td class="prep">Pureed</td>
+    </tr>
+    <tr>
+      <td>Margarine</td>
+      <td class="amt">4 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Parsley, fresh</td>
+      <td class="amt">1 kg</td>
+      <td class="prep">Chop coarse for blending, use leaves &amp; stems</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Purée the garlic and blitz briefly with the parsley, then mix into the margarine with plenty of salt.</li>
+    <li>Cut each baguette lengthways and across into four pieces.</li>
+    <li>Spread with the garlic butter.</li>
+    <li>Bake at 220°C until golden and crisp.</li>
+  </ol>
+  <footer><span>Vegetarian</span><span>Monday -2 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-dessert">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Tomato Pasta</div>
+    <h1>Yoghurt w/ Berries</h1>
+    <div class="meta"><span class="chip">Yield <b>180</b></span><span class="chip">Diet <b>Vegetarian</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Yoghurt blended with frozen berries, with a separate vegan batch.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Yoghurt</td>
+      <td class="amt">18 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Frozen Berries</td>
+      <td class="amt">9 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h3 class="variant">Vegan</h3>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Yog, Vegan</td>
+      <td class="amt">2 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Frozen Berries</td>
+      <td class="amt">1 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Blend frozen berries through the yoghurt.</li>
+    <li>Make a separate vegan batch with vegan yoghurt — label it.</li>
+    <li>Keep cold until service.</li>
+  </ol>
+  <footer><span>Vegetarian · vegan batch</span><span>Monday -2 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-vegmain">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · German</div>
+    <h1>Kartoffelsuppe (Potato Soup)</h1>
+    <div class="meta"><span class="chip">Vessel <b>Kipper</b></span><span class="chip">Diet <b>Vegan</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Hearty potato and brown-lentil soup with carrots and mushrooms, seasoned with marjoram.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Onions</td>
+      <td class="amt">23 kg</td>
+      <td class="prep">chopped 1inch</td>
+    </tr>
+    <tr>
+      <td>Potatoes</td>
+      <td class="amt">30 kg</td>
+      <td class="prep">peeled and cubed 1inch</td>
+    </tr>
+    <tr>
+      <td>Carrots</td>
+      <td class="amt">15 kg</td>
+      <td class="prep">peeled and cubed 1inch</td>
+    </tr>
+    <tr>
+      <td>Mushrooms</td>
+      <td class="amt">7.5 kg</td>
+      <td class="prep">chopped 1inch</td>
+    </tr>
+    <tr>
+      <td>Brown Lentils</td>
+      <td class="amt">15 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Marjoram</td>
+      <td class="amt">200 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Vegetable Stock</td>
+      <td class="amt">1 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Sweat the onions.</li>
+    <li>Add potatoes, carrots, mushrooms and marjoram.</li>
+    <li>Add the brown lentils and vegetable stock.</li>
+    <li>Simmer until potatoes and lentils are tender.</li>
+    <li>Season, and partially blend for a thicker body.</li>
+  </ol>
+  <footer><span>Vegan</span><span>Tuesday -1 · Lunch</span></footer>
+</div>
+</section>
+<section class="t-side">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · German</div>
+    <h1>Zwiebelkuchen</h1>
+    <div class="meta"><span class="chip">Vessel <b>Oven/Kipper</b></span><span class="chip">Diet <b>Vegan</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>German onion tart: a yeast-dough base topped with caramelised onions and caraway, baked in trays. Dough is made the day before.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Onions</td>
+      <td class="amt">30 kg</td>
+      <td class="prep">peeled, halved, sliced VPM medium setting</td>
+    </tr>
+    <tr>
+      <td>Flour</td>
+      <td class="amt">9 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Yeast</td>
+      <td class="amt">150 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Margarine</td>
+      <td class="amt">10 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Soy Milk</td>
+      <td class="amt">2 l</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Oil</td>
+      <td class="amt">600 ml</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Caraway Seeds</td>
+      <td class="amt">350 g</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Slice the onions (machine).</li>
+    <li>Sweat until soft, then caramelise.</li>
+    <li>Roll out the pre-made dough.</li>
+    <li>Line the GNs with baking paper.</li>
+    <li>Press the dough into the GN.</li>
+    <li>Spread caramelised onions and caraway seeds on top.</li>
+    <li>Bake ~220°C for ~30 min until set and golden.</li>
+  </ol>
+  <div class="note"><b>Dough made the previous day</b> (flour, yeast, margarine, soy milk, oil, caraway) — see the Mon −2D pre-prep.</div>
+  <footer><span>Vegan</span><span>Source: <a href="https://www.essen-und-trinken.de/rezepte/88117-rzpt-klassischer-zwiebelkuchen">essen-und-trinken.de</a></span><span>Tuesday -1 · Lunch</span></footer>
+</div>
+</section>
+<section class="t-cold">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · German</div>
+    <h1>Carrot Salad</h1>
+    <div class="meta"><span class="chip">Diet <b>Vegan</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Finely grated carrot dressed with lemon, oil and vinegar, finished with sesame and parsley; rested overnight.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Carrots</td>
+      <td class="amt">30 kg</td>
+      <td class="prep">peeled</td>
+    </tr>
+    <tr>
+      <td>Lemon Juice</td>
+      <td class="amt">2.5 l</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>White wine vinegar</td>
+      <td class="amt">2.5 l</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Sesame Seeds</td>
+      <td class="amt">300 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Olive Oil</td>
+      <td class="amt">2.5 l</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Fresh Parsley</td>
+      <td class="amt">2 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Grate the carrots finely (machine).</li>
+    <li>Dress with lemon juice, olive oil and white wine vinegar.</li>
+    <li>Scrunch/knead to soften the carrot.</li>
+    <li>Stir through sesame seeds and parsley.</li>
+    <li>Rest overnight before serving.</li>
+  </ol>
+  <footer><span>Vegan</span><span>Tuesday -1 · Lunch</span></footer>
+</div>
+</section>
+<section class="t-vegmain">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Stews</div>
+    <h1>Chickpea Pepper Stew</h1>
+    <div class="meta"><span class="chip">Yield <b>180</b></span><span class="chip">Vessel <b>saucepan</b></span><span class="chip">Diet <b>Vegan</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Onions fried with tomato purée, then tinned tomatoes and a mix of roasted vegetables simmered down and spiced. Drained chickpeas stirred in at the end so they stay whole.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Tinned Chickpeas</td>
+      <td class="amt">32 kg</td>
+      <td class="prep">drained</td>
+    </tr>
+    <tr>
+      <td>Onions</td>
+      <td class="amt">12 kg</td>
+      <td class="prep">chopped</td>
+    </tr>
+    <tr>
+      <td>Red Peppers</td>
+      <td class="amt">5 kg</td>
+      <td class="prep">1in squares</td>
+    </tr>
+    <tr>
+      <td>Green Peppers</td>
+      <td class="amt">5 kg</td>
+      <td class="prep">1in squares</td>
+    </tr>
+    <tr>
+      <td>Tinned Tomatoes</td>
+      <td class="amt">12 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Tomato Puree</td>
+      <td class="amt">2 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Courgette</td>
+      <td class="amt">5 kg</td>
+      <td class="prep">1in cubes</td>
+    </tr>
+    <tr>
+      <td>White Cabbage</td>
+      <td class="amt">8 kg</td>
+      <td class="prep">1in squares</td>
+    </tr>
+    <tr>
+      <td>Savoy Cabbage</td>
+      <td class="amt">9 ea</td>
+      <td class="prep">1in squares</td>
+    </tr>
+    <tr>
+      <td>Carrots</td>
+      <td class="amt">8 kg</td>
+      <td class="prep">1in cubes</td>
+    </tr>
+    <tr>
+      <td>Swede</td>
+      <td class="amt">5 kg</td>
+      <td class="prep">1in cubes</td>
+    </tr>
+    <tr>
+      <td>Garam Masala</td>
+      <td class="amt">100 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Cumin</td>
+      <td class="amt">100 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Paprika</td>
+      <td class="amt">100 g</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Roast peppers, courgette, cabbage, carrot and swede until edges caramelise (if oven space).</li>
+    <li>Fry onions in oil until soft and translucent.</li>
+    <li>Add tomato purée and cook out 1–2 min until darkened.</li>
+    <li>Add tinned tomatoes and all the veg; season with garam masala, cumin and paprika.</li>
+    <li>Simmer until veg is just tender — a knife meets slight resistance.</li>
+    <li>Stir in drained chickpeas and simmer to heat through. Taste and adjust seasoning.</li>
+  </ol>
+  <footer><span>Vegan · gluten-free (check spice blends)</span><span>Tuesday -1 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-meat">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Stews</div>
+    <h1>Beef &amp; Ale Stew</h1>
+    <div class="meta"><span class="chip">Yield <b>60</b></span><span class="chip">Vessel <b>Kipper</b></span><span class="chip">Diet <b>Contains: beef, gluten (flour</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Beef is browned off, vegetables sweated in the same pan. Deglaze with ale, simmer with stock, and thicken with Bisto at the end.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Beef, Stewing</td>
+      <td class="amt">7.5 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Pepper, Cracked</td>
+      <td class="amt">100 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Ale</td>
+      <td class="amt">6 l</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Flour</td>
+      <td class="amt">1.5 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Onions</td>
+      <td class="amt">10 kg</td>
+      <td class="prep">medium cubes</td>
+    </tr>
+    <tr>
+      <td>Carrots</td>
+      <td class="amt">6 kg</td>
+      <td class="prep">peeled, machine cubes</td>
+    </tr>
+    <tr>
+      <td>Swede</td>
+      <td class="amt">5 kg</td>
+      <td class="prep">peeled, machine cubes</td>
+    </tr>
+    <tr>
+      <td>Bisto</td>
+      <td class="amt">300 g</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Toss beef in flour mixed with cracked pepper; shake off excess.</li>
+    <li>Sear beef in minimal oil, in batches, until deep brown. Remove.</li>
+    <li>Fry onions, carrots and swede in the same pan.</li>
+    <li>Deglaze with ale, scraping the base clean.</li>
+    <li>Return beef; add stock and/or more ale to cover.</li>
+    <li>Simmer gently until beef is fork-tender and sauce coats a spoon.</li>
+    <li>Stir in Bisto to thicken; taste and season.</li>
+  </ol>
+  <footer><span>Contains: beef, gluten (flour · ale · Bisto)</span><span>Tuesday -1 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-side">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Stews</div>
+    <h1>Dauphinoise</h1>
+    <div class="meta"><span class="chip">Vessel <b>oven</b></span><span class="chip">Diet <b>Vegetarian</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Sliced potatoes baked in seasoned garlic cream, covered with foil, until tender, then held hot.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Potatoes</td>
+      <td class="amt">45 kg</td>
+      <td class="prep">peeled, machine slices, large</td>
+    </tr>
+    <tr>
+      <td>Cream, Double</td>
+      <td class="amt">15 l</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>White Pepper</td>
+      <td class="amt">45 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Salt</td>
+      <td class="amt">315 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Garlic</td>
+      <td class="amt">3 kg</td>
+      <td class="prep">roasted and pureed with oil. make a LOT</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Recipe fills 2 trays — halve everything and make twice.</li>
+    <li>Mix cream, roasted garlic purée, salt and white pepper in the GN tray.</li>
+    <li>Submerge sliced potatoes in the seasoned cream.</li>
+    <li>Cover with a double layer of foil, well sealed.</li>
+    <li>Bake at 120–180°C, covered, at least 3 hours, until a knife goes through with no resistance.</li>
+    <li>Hold hot until service.</li>
+  </ol>
+  <footer><span>Vegetarian · contains dairy · gluten-free</span><span>Tuesday -1 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-cold">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Stews</div>
+    <h1>Salad</h1>
+    <div class="meta"><span class="chip">Diet <b>Vegan</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Leaf salad with an oil, balsamic and Dijon dressing, combined only at service.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Lettuce</td>
+      <td class="amt">50 ea</td>
+      <td class="prep">defrost</td>
+    </tr>
+    <tr>
+      <td>Oil</td>
+      <td class="amt">2 L</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Balsamic Vinegar</td>
+      <td class="amt">2 L</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Dijon Mustard</td>
+      <td class="amt">1 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Whisk oil, balsamic and Dijon into a smooth emulsion.</li>
+    <li>Dress the leaves only at service; toss just before serving.</li>
+  </ol>
+  <footer><span>Vegan · gluten-free</span><span>Tuesday -1 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-dessert">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Stews</div>
+    <h1>Vegan Vanilla Sheet Cake</h1>
+    <div class="meta"><span class="chip">Yield <b>480 slices</b></span><span class="chip">Vessel <b>14 GNs</b></span><span class="chip">Diet <b>Vegan</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>One-bowl vegan sponge — soy milk soured with vinegar, mixed with the dry ingredients and oil, baked in trays, then topped with white icing and sprinkles once cold.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Soy Drink</td>
+      <td class="amt">10 l</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Apple Cider Vinegar</td>
+      <td class="amt">400 ml</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Flour, Self Raising</td>
+      <td class="amt">9.2 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Baking Soda</td>
+      <td class="amt">100 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Sugar</td>
+      <td class="amt">7.2 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Oil</td>
+      <td class="amt">4 l</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Vanilla Flavouring</td>
+      <td class="amt">1 l</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Icing Sugar</td>
+      <td class="amt">8 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Water</td>
+      <td class="amt">1.2 l</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Cream of Tartar</td>
+      <td class="amt">50 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Sprinkles</td>
+      <td class="amt">0.1 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Mix soy drink and cider vinegar; leave 15 min to curdle.</li>
+    <li>Combine flour, baking soda and caster sugar.</li>
+    <li>Add the curdled soy, oil and vanilla; mix smooth with no dry pockets.</li>
+    <li>Pour into lined GN trays, spread level. Bake ~180°C for 20–25 min until a skewer comes out clean.</li>
+    <li>Cool completely before icing.</li>
+    <li>Mix icing sugar, water and cream of tartar to a thick, spreadable white glaze; spread over the cold cake.</li>
+    <li>Scatter sprinkles; leave ~1 hr to set before cutting into squares.</li>
+  </ol>
+  <div class="note"><b>Batch amounts above are already scaled to ~480 slices / 14 GNs</b> (original recipe makes 12).</div>
+  <footer><span>Vegan · contains gluten &amp; soy</span><span>Source: <a href="https://bakedbyclo.com/vegan-vanilla-sheet-cake/">bakedbyclo.com</a></span><span>Tuesday -1 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-vegmain">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Eastern European</div>
+    <h1>Borscht (beetroot stew)</h1>
+    <div class="meta"><span class="chip">Yield <b>80</b></span><span class="chip">Vessel <b>Topf</b></span><span class="chip">Diet <b>Vegan</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Beetroot and vegetable stew with red lentils, built by frying the vegetables in stages, simmered in stock and finished with dill; served with sour cream.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Beetroot</td>
+      <td class="amt">7.5 kg</td>
+      <td class="prep">peeled and cubed, can be grated if time is short</td>
+    </tr>
+    <tr>
+      <td>Carrots</td>
+      <td class="amt">6 kg</td>
+      <td class="prep">peeled and cubed, can be grated if time is short</td>
+    </tr>
+    <tr>
+      <td>Potatoes</td>
+      <td class="amt">7.5 kg</td>
+      <td class="prep">peeled and cubed, no grating</td>
+    </tr>
+    <tr>
+      <td>Celeriac</td>
+      <td class="amt">2 ea</td>
+      <td class="prep">peeled and cubed</td>
+    </tr>
+    <tr>
+      <td>Dill, Fresh</td>
+      <td class="amt">0.5 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Red lentils</td>
+      <td class="amt">2.5 kg</td>
+      <td class="prep">wash before use</td>
+    </tr>
+    <tr>
+      <td>Tinned Tomatoes</td>
+      <td class="amt">12.5 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Leeks</td>
+      <td class="amt">6 kg</td>
+      <td class="prep">washed and cut into strips</td>
+    </tr>
+    <tr>
+      <td>White cabbage</td>
+      <td class="amt">3 kg</td>
+      <td class="prep">shred through machine med setting</td>
+    </tr>
+    <tr>
+      <td>Onions</td>
+      <td class="amt">7.5 kg</td>
+      <td class="prep">medium cubes</td>
+    </tr>
+    <tr>
+      <td>Apple Cider Vinegar</td>
+      <td class="amt">0.8 L</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Stock</td>
+      <td class="amt">15 L</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Smoked Paprika</td>
+      <td class="amt">120 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Paprika, Hot</td>
+      <td class="amt">70 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Sour cream</td>
+      <td class="amt">3 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Sour Cream, Vegan</td>
+      <td class="amt">1 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Wash the red lentils until the water runs clear.</li>
+    <li>Fry carrots and celeriac until soft and browned.</li>
+    <li>Add onions, leeks and paprika (smoked + hot); fry until golden.</li>
+    <li>Add cabbage and beetroot; fry to soften.</li>
+    <li>Add stock and potatoes.</li>
+    <li>Simmer until potatoes are almost done.</li>
+    <li>Add lentils and dill; simmer to thicken.</li>
+    <li>Serve with sour cream (dairy + vegan) on the side.</li>
+  </ol>
+  <footer><span>Vegan (sour cream on side)</span><span>Wednesday 0 · Lunch</span></footer>
+</div>
+</section>
+<section class="t-meat">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Eastern European</div>
+    <h1>Krautfleckerl (Cabbage pasta)</h1>
+    <div class="meta"><span class="chip">Yield <b>120</b></span><span class="chip">Vessel <b>Kipper</b></span><span class="chip">Diet <b>Vegan, optional bacon</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Austrian cabbage-and-pasta dish: onions and cabbage cooked down, tossed with pasta and caraway. Bacon goes into the non-veg portions only.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Pasta (Flat e.g. Farfalle)</td>
+      <td class="amt">20 kg</td>
+      <td class="prep">Pre cooked</td>
+    </tr>
+    <tr>
+      <td>Cabbage eg Savoy or sweetheart</td>
+      <td class="amt">40 kg</td>
+      <td class="prep">1inch squares</td>
+    </tr>
+    <tr>
+      <td>Onions</td>
+      <td class="amt">10 kg</td>
+      <td class="prep">chopped, medium</td>
+    </tr>
+    <tr>
+      <td>Caraway seeds</td>
+      <td class="amt">250 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Parsley fresh</td>
+      <td class="amt">700 g</td>
+      <td class="prep">Chopped small</td>
+    </tr>
+    <tr>
+      <td>White wine vinegar</td>
+      <td class="amt">1000 ml</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h3 class="variant">Bacon</h3>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Bacon</td>
+      <td class="amt">8 kg</td>
+      <td class="prep">cubed or small squares</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Boil the pasta.</li>
+    <li>Fry the bacon in a separate pan.</li>
+    <li>Fry onions until soft, add cabbage and cook until soft.</li>
+    <li>Deglaze with white wine vinegar; add the pasta and caraway to taste.</li>
+    <li>Stir bacon into the non-veg portions; finish with parsley.</li>
+  </ol>
+  <footer><span>Contains bacon (veg without)</span><span>Wednesday 0 · Lunch</span></footer>
+</div>
+</section>
+<section class="t-cold">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Eastern European</div>
+    <h1>Cucumber Salad</h1>
+    <div class="meta"><span class="chip">Diet <b>Vegetarian</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Salted cucumber slices, drained then dressed with garlic, sour cream, lemon and paprika.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Cucumber</td>
+      <td class="amt">65 ea</td>
+      <td class="prep">Peel, Machine Slice</td>
+    </tr>
+    <tr>
+      <td>Garlic</td>
+      <td class="amt">0.2 kg</td>
+      <td class="prep">Pureed</td>
+    </tr>
+    <tr>
+      <td>Sour Cream</td>
+      <td class="amt">2 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Sour Cream, Vegan</td>
+      <td class="amt">0.4 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Paprika</td>
+      <td class="amt">50 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Lemon Juice</td>
+      <td class="amt">1 l</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Salt</td>
+      <td class="amt">500 g</td>
+      <td class="prep">approx, please be sane</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Peel and slice the cucumbers.</li>
+    <li>Salt and refrigerate at least 1 hour.</li>
+    <li>Drain well.</li>
+    <li>Mix with garlic, sour cream (dairy + vegan), lemon juice and paprika.</li>
+  </ol>
+  <footer><span>Vegetarian · vegan batch</span><span>Wednesday 0 · Lunch</span></footer>
+</div>
+</section>
+<section class="t-side">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · British</div>
+    <h1>Cauliflower Cheese</h1>
+    <div class="meta"><span class="chip">Yield <b>260</b></span><span class="chip">Vessel <b>oven, hold hot</b></span><span class="chip">Diet <b>Vegetarian</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Cauliflower and broccoli baked in cheese sauce; a separate gluten-free batch uses GF flour, oat milk and engevita.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Cauliflower</td>
+      <td class="amt">40 ea</td>
+      <td class="prep">Cut into florets, peel stems and cut into rounds</td>
+    </tr>
+    <tr>
+      <td>Broccoli</td>
+      <td class="amt">16 kg</td>
+      <td class="prep">Cut into florets, peel stems and cut into rounds</td>
+    </tr>
+    <tr>
+      <td>Grated Cheese</td>
+      <td class="amt">8 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Flour</td>
+      <td class="amt">4 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Gluten Free Flour</td>
+      <td class="amt">1000 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Milk, UHT</td>
+      <td class="amt">30 L</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>GF Oat Milk</td>
+      <td class="amt">10 L</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Margarine</td>
+      <td class="amt">8 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>White pepper</td>
+      <td class="amt">100 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Engevita</td>
+      <td class="amt">400 g</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Steam cauliflower and broccoli until just tender.</li>
+    <li>Melt margarine and stir in flour to make a roux.</li>
+    <li>Add UHT milk, stirring constantly until boiled; fold in cheese, salt and white pepper.</li>
+    <li>Make a GF batch in a separate pan: GF flour + oat milk + engevita.</li>
+    <li>Stir the sauce through the veg in trays; top with remaining cheese.</li>
+    <li>Bake until golden.</li>
+  </ol>
+  <footer><span>Vegetarian · GF batch</span><span>Wednesday 0 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-meat">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · British</div>
+    <h1>Sausages</h1>
+    <div class="meta"><span class="chip">Yield <b>260</b></span><span class="chip">Vessel <b>kipper/hold warm</b></span><span class="chip">Diet <b>Meat + vegan bat</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Pork sausages roasted in trays; vegan sausages cooked separately and held hot.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Vegan Sausages</td>
+      <td class="amt">20 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Sausages</td>
+      <td class="amt">60 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Roast the pork sausages in trays until browned and cooked through.</li>
+    <li>Cook the vegan sausages separately (kipper), kept apart from the meat.</li>
+    <li>Hold hot for service.</li>
+  </ol>
+  <footer><span>Meat + vegan batch</span><span>Wednesday 0 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-side">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · British</div>
+    <h1>Mash</h1>
+    <div class="meta"><span class="chip">Yield <b>260</b></span><span class="chip">Vessel <b>BP / Pot</b></span><span class="chip">Diet <b>Vegan</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Potato mash loosened with margarine and oat milk, with fried leftover cabbage folded through.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Potatoes</td>
+      <td class="amt">70 kg</td>
+      <td class="prep">Peeled, chopped large</td>
+    </tr>
+    <tr>
+      <td>Margarine</td>
+      <td class="amt">8 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Oat Milk</td>
+      <td class="amt">10 L</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Fried leftover cabbage</td>
+      <td class="amt">existing</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Boil the potatoes, drain and mash.</li>
+    <li>Add margarine and oat milk.</li>
+    <li>Reheat the leftover cabbage and fold it through.</li>
+    <li>Season with salt and white pepper.</li>
+  </ol>
+  <footer><span>Vegan</span><span>Wednesday 0 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-side">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · British</div>
+    <h1>Gravy</h1>
+    <div class="meta"><span class="chip">Yield <b>260</b></span><span class="chip">Vessel <b>kipper/topf</b></span><span class="chip">Diet <b>Veg pot + meat p</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Onion gravy on caramelised onions and (optionally) sausage fat, thickened with GF flour and Bisto; keep a veg pot aside.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Onions</td>
+      <td class="amt">50 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Ale</td>
+      <td class="amt">4 l</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Stock</td>
+      <td class="amt">50 L</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Gluten Free Flour</td>
+      <td class="amt">3 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Bisto</td>
+      <td class="amt">400 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Sausage fat</td>
+      <td class="amt">existing</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Caramelise the onions.</li>
+    <li>Reserve some onions for a separate veg pot.</li>
+    <li>Add sausage fat to the main pot.</li>
+    <li>Add GF flour and fry until brown.</li>
+    <li>Deglaze and top up with stock (and ale/stout).</li>
+    <li>Simmer through and finish with Bisto.</li>
+  </ol>
+  <footer><span>Veg pot + meat pot</span><span>Wednesday 0 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-side">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · British</div>
+    <h1>Steamed Veg</h1>
+    <div class="meta"><span class="chip">Yield <b>260</b></span><span class="chip">Vessel <b>Oven</b></span><span class="chip">Diet <b>Vegan</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Peas and sliced carrots, steamed briefly to keep them bright.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Frozen Peas</td>
+      <td class="amt">10 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Carrots</td>
+      <td class="amt">10 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Cut the carrots small.</li>
+    <li>Steam carrots and peas ~3 minutes, checking often so they stay bright and just tender.</li>
+  </ol>
+  <footer><span>Vegan</span><span>Wednesday 0 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-cold">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · British</div>
+    <h1>Salad</h1>
+    <div class="meta"><span class="chip">Yield <b>260</b></span><span class="chip">Diet <b>Vegan</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Uses the leftover salad from the previous day.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Leftover from previous day</td>
+      <td class="amt">existing</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Use the leftover salad from the previous day.</li>
+    <li>Keep cold; dress only at service.</li>
+  </ol>
+  <footer><span>Vegan</span><span>Wednesday 0 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-dessert">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · British</div>
+    <h1>Custard</h1>
+    <div class="meta"><span class="chip">Yield <b>260</b></span><span class="chip">Vessel <b>Kipper</b></span><span class="chip">Diet <b>Vegetarian</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Pouring custard from custard powder, milk and sugar, with a separate oat-milk batch.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Milk, UHT</td>
+      <td class="amt">50 l</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>GF Oat Milk</td>
+      <td class="amt">10 l</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Sugar</td>
+      <td class="amt">3.5 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Custard Powder</td>
+      <td class="amt">3.5 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Whisk custard powder and sugar with a little cold milk to a smooth paste.</li>
+    <li>Heat the rest of the milk, whisk in the paste and cook until thickened.</li>
+    <li>Make a separate GF oat-milk batch — label it.</li>
+  </ol>
+  <footer><span>Vegetarian · oat batch</span><span>Wednesday 0 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-dessert">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · British</div>
+    <h1>Crumble</h1>
+    <div class="meta"><span class="chip">Yield <b>260</b></span><span class="chip">Vessel <b>Oven</b></span><span class="chip">Diet <b>Vegetarian</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Deconstructed crumble — the topping is baked separately until crisp and the apples are stewed, then served together.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Margarine</td>
+      <td class="amt">5 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Flour</td>
+      <td class="amt">6.5 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Oats</td>
+      <td class="amt">3.25 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Sugar</td>
+      <td class="amt">6.5 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Apples</td>
+      <td class="amt">65 kg</td>
+      <td class="prep">Peeled and cubed into 2cm</td>
+    </tr>
+    <tr>
+      <td>Sugar</td>
+      <td class="amt">5 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Cinnamon</td>
+      <td class="amt">200 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Nutmeg</td>
+      <td class="amt">50 g</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Make the crumble: melt the margarine and mix through the flour, oats, sugar, cinnamon and nutmeg.</li>
+    <li>Spread into GNs and bake at 200°C until dry and crisp.</li>
+    <li>Put the apples in a big pot or kipper with sugar to taste.</li>
+    <li>Sweat until softened (not too long); add a splash of water if needed.</li>
+    <li>Serve the stewed apples with the crisp crumble on top.</li>
+  </ol>
+  <footer><span>Vegetarian</span><span>Wednesday 0 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-vegmain">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Mediterranean</div>
+    <h1>Seitan Shawarma</h1>
+    <div class="meta"><span class="chip">Yield <b>200</b></span><span class="chip">Vessel <b>kippfanne</b></span><span class="chip">Diet <b>Vegan</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Home-made seitan from vital wheat gluten and shawarma spices, cooked, shredded and fried crisp, served pitta/kebab style.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Wheat Gluten</td>
+      <td class="amt">14 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Smoked Paprika</td>
+      <td class="amt">300 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Paprika</td>
+      <td class="amt">300 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Garlic powder</td>
+      <td class="amt">300 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Cumin</td>
+      <td class="amt">300 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Salt</td>
+      <td class="amt">400 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Pepper</td>
+      <td class="amt">400 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Oil</td>
+      <td class="amt">2 L</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Ras el hanout</td>
+      <td class="amt">300 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Vegetable Stock</td>
+      <td class="amt">existing l</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Mix the wheat gluten with the spices (smoked paprika, paprika, garlic powder, cumin, ras el hanout, salt, pepper) and vegetable stock to a stiff dough; knead.</li>
+    <li>Cook the seitan (steam/simmer/bake) until firm, then cool.</li>
+    <li>Shred on the veg-prep machine (biggest attachment).</li>
+    <li>Fry the shredded seitan in oil until crisp and browned.</li>
+    <li>Season and pack pitta / kebab style.</li>
+  </ol>
+  <footer><span>Vegan · contains gluten</span><span>Thursday 1 · Lunch</span></footer>
+</div>
+</section>
+<section class="t-vegmain">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Mediterranean</div>
+    <h1>Butter Beans in Tomato Sauce</h1>
+    <div class="meta"><span class="chip">Yield <b>260</b></span><span class="chip">Vessel <b>topf</b></span><span class="chip">Diet <b>Vegan</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Greek-style gigantes: butter beans simmered in a smoky tomato-and-oregano sauce.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Butter Beans, Dry</td>
+      <td class="amt">10 kg</td>
+      <td class="prep">Soak overnight (or use tinned)</td>
+    </tr>
+    <tr>
+      <td>Tinned Tomatoes</td>
+      <td class="amt">30 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Onions</td>
+      <td class="amt">8 kg</td>
+      <td class="prep">small cubes</td>
+    </tr>
+    <tr>
+      <td>Smoked Paprika</td>
+      <td class="amt">300 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Oregano</td>
+      <td class="amt">80 g</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Fry the onions with smoked paprika and oregano.</li>
+    <li>Deglaze with the tinned tomatoes and simmer to thicken.</li>
+    <li>Fold in the butter beans; season and simmer to meld.</li>
+  </ol>
+  <div class="note"><b>Dried butter beans</b> need soaking &amp; pre-cooking (10 kg dry ≈ 20 kg cooked) — or use tinned.</div>
+  <footer><span>Vegan</span><span>Source: <a href="https://www.thevegspace.co.uk/recipe-quick-easy-tomato-and-herb-gigantes-beans/">thevegspace.co.uk</a></span><span>Thursday 1 · Lunch</span></footer>
+</div>
+</section>
+<section class="t-side">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Mediterranean</div>
+    <h1>Potato Wedges</h1>
+    <div class="meta"><span class="chip">Yield <b>260</b></span><span class="chip">Vessel <b>oven</b></span><span class="chip">Diet <b>Vegan</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Skin-on wedges tossed in spiced oil and roasted.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Potatoes</td>
+      <td class="amt">40 kg</td>
+      <td class="prep">Wedges, skin on</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Mix the spices with oil.</li>
+    <li>Toss the wedges through and spread on trays.</li>
+    <li>Salt and pepper on top.</li>
+    <li>Bake until crisp.</li>
+  </ol>
+  <footer><span>Vegan</span><span>Thursday 1 · Lunch</span></footer>
+</div>
+</section>
+<section class="t-meat">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Mediterranean</div>
+    <h1>Mediterranean Roast Chicken Thighs</h1>
+    <div class="meta"><span class="chip">Yield <b>60</b></span><span class="chip">Vessel <b>oven</b></span><span class="chip">Diet <b>Meat</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Skin-on thighs marinated in lemon, garlic, herbs and smoked paprika, then roasted crisp.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Chicken Thighs, skin-on</td>
+      <td class="amt">20 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Lemons, juice of</td>
+      <td class="amt">32 ea</td>
+      <td class="prep">juiced</td>
+    </tr>
+    <tr>
+      <td>Thyme</td>
+      <td class="amt">160 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Oregano</td>
+      <td class="amt">160 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Smoked Paprika</td>
+      <td class="amt">160 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Olive Oil</td>
+      <td class="amt">1 L</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Make the marinade: lemon juice, garlic, olive oil, thyme, oregano, smoked paprika and salt.</li>
+    <li>Coat the thighs and marinate overnight in the fridge.</li>
+    <li>Roast at 200–230°C until crisp and cooked through.</li>
+  </ol>
+  <footer><span>Meat</span><span>Thursday 1 · Lunch</span></footer>
+</div>
+</section>
+<section class="t-cold">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Mediterranean</div>
+    <h1>English Tabbouleh</h1>
+    <div class="meta"><span class="chip">Yield <b>260</b></span><span class="chip">Vessel <b>Trays/hot water</b></span><span class="chip">Diet <b>Vegetarian</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Couscous salad with lots of parsley, peppers and cucumber, olive oil and lemon; made with and without feta.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Couscous, Dry</td>
+      <td class="amt">6 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Parsley, fresh</td>
+      <td class="amt">4 kg</td>
+      <td class="prep">very coarse</td>
+    </tr>
+    <tr>
+      <td>Red Peppers</td>
+      <td class="amt">8 kg</td>
+      <td class="prep">Diced fine</td>
+    </tr>
+    <tr>
+      <td>Cucumber</td>
+      <td class="amt">20 ea</td>
+      <td class="prep">remove middle and dice fine</td>
+    </tr>
+    <tr>
+      <td>Feta</td>
+      <td class="amt">3 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Olive Oil</td>
+      <td class="amt">3 L</td>
+      <td class="prep">liquid</td>
+    </tr>
+    <tr>
+      <td>Lemons, juice of</td>
+      <td class="amt">70 ea</td>
+      <td class="prep">juice</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Hydrate the couscous and fluff.</li>
+    <li>Fold in parsley, red peppers, cucumber, feta, olive oil and lemon juice.</li>
+    <li>Season. Make a batch with and a batch without feta.</li>
+  </ol>
+  <footer><span>Vegetarian · feta optional</span><span>Thursday 1 · Lunch</span></footer>
+</div>
+</section>
+<section class="t-side">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Mediterranean</div>
+    <h1>Sides</h1>
+    <div class="meta"><span class="chip">Yield <b>130</b></span><span class="chip">Diet <b>Mixed</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Accompaniments for the shawarma: hummus, chilli sauce, pickled vegetables and reheated pitta.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Hummus</td>
+      <td class="amt">existing</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Chili Sauce</td>
+      <td class="amt">3 ea</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Pickled Vegetables</td>
+      <td class="amt">8 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Pitta Bread</td>
+      <td class="amt">200 ea</td>
+      <td class="prep">cut in half (across) and reheat in oven</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Cut the pitta in half across and reheat in the oven.</li>
+    <li>Put out hummus (~50g pp), chilli sauce and pickled vegetables.</li>
+  </ol>
+  <footer><span>Mixed</span><span>Thursday 1 · Lunch</span></footer>
+</div>
+</section>
+<section class="t-side">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Mediterranean</div>
+    <h1>Hummus</h1>
+    <div class="meta"><span class="chip">Yield <b>130</b></span><span class="chip">Vessel <b>13kg</b></span><span class="chip">Diet <b>Vegan</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Chickpea hummus with tahini, lemon, roasted &amp; raw garlic and cumin.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Tinned Chickpeas</td>
+      <td class="amt">20 kg</td>
+      <td class="prep">Cooked again until really tender</td>
+    </tr>
+    <tr>
+      <td>Tahini</td>
+      <td class="amt">2.4 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Lemons, juice of</td>
+      <td class="amt">52 ea</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Garlic</td>
+      <td class="amt">40 ea</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Garlic Roasted</td>
+      <td class="amt">40 ea</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Cumin</td>
+      <td class="amt">320 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Salt</td>
+      <td class="amt">320 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Olive Oil</td>
+      <td class="amt">2 l</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Whisk the tahini and lemon juice together until pale and fluffy (big whisk or blender).</li>
+    <li>Add the garlic, chickpeas, cumin and olive oil, and blend smooth.</li>
+    <li>Season with salt (more than you'd think), loosening with more oil if needed.</li>
+  </ol>
+  <footer><span>Vegan</span><span>Thursday 1 · Lunch</span></footer>
+</div>
+</section>
+<section class="t-vegmain">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Thai</div>
+    <h1>Thai Green Chickpea Curry</h1>
+    <div class="meta"><span class="chip">Yield <b>180</b></span><span class="chip">Vessel <b>kipper</b></span><span class="chip">Diet <b>Vegan</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Green curry with chickpeas and mixed vegetables in coconut milk, seasoned with palm sugar, vegan fish sauce, tamari and lime leaves, finished with Thai basil.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Tinned Chickpeas</td>
+      <td class="amt">32 kg</td>
+      <td class="prep">Drained, chickpea water reserved</td>
+    </tr>
+    <tr>
+      <td>Green Curry Paste</td>
+      <td class="amt">4.8 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Tamari</td>
+      <td class="amt">0.6 L</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Makrut (Kaffir) Lime Leaves</td>
+      <td class="amt">300 g</td>
+      <td class="prep">torn</td>
+    </tr>
+    <tr>
+      <td>Palm Sugar</td>
+      <td class="amt">1.5 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Red Onions</td>
+      <td class="amt">9 kg</td>
+      <td class="prep">1inch pieces</td>
+    </tr>
+    <tr>
+      <td>Courgette</td>
+      <td class="amt">9 kg</td>
+      <td class="prep">1in cubes, ALL CUBES SAME SIZE</td>
+    </tr>
+    <tr>
+      <td>Green Peppers</td>
+      <td class="amt">6 kg</td>
+      <td class="prep">about same size as courgettes</td>
+    </tr>
+    <tr>
+      <td>Butternut Squash</td>
+      <td class="amt">7.5 kg</td>
+      <td class="prep">split, de seed, then peel, cubes</td>
+    </tr>
+    <tr>
+      <td>Aubergine</td>
+      <td class="amt">5 kg</td>
+      <td class="prep">quartered lengthways</td>
+    </tr>
+    <tr>
+      <td>Coconut Milk</td>
+      <td class="amt">25 L</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Fish Sauce, Vegan</td>
+      <td class="amt">1 l</td>
+      <td class="prep">For seasoning</td>
+    </tr>
+    <tr>
+      <td>Thai Basil</td>
+      <td class="amt">750 g</td>
+      <td class="prep">Chopped coarse or chiffonade</td>
+    </tr>
+    <tr>
+      <td>Green Chillies</td>
+      <td class="amt">300 g</td>
+      <td class="prep">Chopped fine, served on the side</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Fry the onions, add green curry paste and fry until aromatic.</li>
+    <li>Add the vegetables (courgette, pepper, squash, aubergine) and stir to coat.</li>
+    <li>Add coconut milk and the drained chickpeas; simmer.</li>
+    <li>Loosen with the reserved chickpea water if it dries out.</li>
+    <li>Season with palm sugar, vegan fish sauce, tamari and torn lime leaves.</li>
+    <li>Finish with Thai basil; serve chopped green chillies on the side.</li>
+  </ol>
+  <footer><span>Vegan</span><span>Thursday 1 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-meat">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Thai</div>
+    <h1>Khao Ka Moo (Stewed pork knuckle)</h1>
+    <div class="meta"><span class="chip">Yield <b>80</b></span><span class="chip">Vessel <b>Kipper</b></span><span class="chip">Diet <b>Contains pork</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Thai braised pork knuckle in a spiced soy master-stock with star anise, cinnamon and galangal; served with rice, chilli vinegar and pickled mustard greens.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Pork knuckle</td>
+      <td class="amt">24 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Light Soy Sauce</td>
+      <td class="amt">1280 ml</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Oyster Sauce</td>
+      <td class="amt">1280 ml</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Dark Soy Sauce</td>
+      <td class="amt">640 ml</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Palm Sugar</td>
+      <td class="amt">1.6 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Fresh Coriander</td>
+      <td class="amt">0 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Garlic</td>
+      <td class="amt">500 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Garlic cloves</td>
+      <td class="amt">500 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Cinnamon Sticks</td>
+      <td class="amt">160 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Star Anise</td>
+      <td class="amt">128 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Szechuan Peppercorns</td>
+      <td class="amt">80 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>White Pepper</td>
+      <td class="amt">32 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Galangal</td>
+      <td class="amt">1.6 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Shiitake Mushrooms</td>
+      <td class="amt">640 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Pickled Mustard Greens</td>
+      <td class="amt">12 bags</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Sear the pork knuckle on all sides (a bit of colour is fine); put in a big pot/kipper and cover with water.</li>
+    <li>Add both soy sauces, the oyster sauce and palm sugar; boil ~45 min, skimming off scum.</li>
+    <li>Dry-toast the cinnamon, star anise, Szechuan and white pepper; add to the pork with the mushrooms, garlic, galangal and coriander.</li>
+    <li>Boil 2.5–4 hrs until the pork is fall-off-the-bone tender.</li>
+    <li>Remove the pork and strain the stock.</li>
+    <li>Debone the pork and remove the skin; reduce the sauce with the bones and skin in it.</li>
+    <li>Season with dark soy, strain out the bones; reserve the skin to serve separately.</li>
+    <li>Return the cut pork to the sauce before reheating for service.</li>
+    <li>Serve with pickled mustard greens on the side.</li>
+  </ol>
+  <footer><span>Contains pork · soy · shellfish</span><span>Thursday 1 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-cold">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Thai</div>
+    <h1>Chilli Vinegar</h1>
+    <div class="meta"><span class="chip">Diet <b>Vegan</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Sharp table condiment of vinegar, bird's-eye chilli and garlic, blitzed.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Distilled white vinegar</td>
+      <td class="amt">4 L</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Birds Eye Chilies</td>
+      <td class="amt">200 g</td>
+      <td class="prep">Stems removed</td>
+    </tr>
+    <tr>
+      <td>Garlic</td>
+      <td class="amt">200 g</td>
+      <td class="prep">Peeled</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Blitz the vinegar, chillies and garlic together.</li>
+    <li>Hold in bottles/jars for the tables.</li>
+  </ol>
+  <footer><span>Vegan</span><span>Thursday 1 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-side">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Thai</div>
+    <h1>Steamed Green Veg</h1>
+    <div class="meta"><span class="chip">Vessel <b>40.0</b></span><span class="chip">Diet <b>Vegan</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Leafy greens sliced into ribbons and steamed briefly.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Leafy Greens</td>
+      <td class="amt">8 kg</td>
+      <td class="prep">Wash, slice into ribbons</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Wash and slice the greens into ribbons.</li>
+    <li>Steam briefly — keep bright and just tender.</li>
+  </ol>
+  <footer><span>Vegan</span><span>Thursday 1 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-side">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Thai</div>
+    <h1>Rice</h1>
+    <div class="meta"><span class="chip">Yield <b>260</b></span><span class="chip">Vessel <b>Rice Cooker</b></span><span class="chip">Diet <b>Vegan</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Jasmine rice cooked in the rice cookers.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Rice, Jasmine</td>
+      <td class="amt">35 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Rinse the jasmine rice.</li>
+    <li>Cook in the rice cookers.</li>
+    <li>Fluff and hold warm.</li>
+  </ol>
+  <footer><span>Vegan</span><span>Thursday 1 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-dessert">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Thai</div>
+    <h1>Orange jello</h1>
+    <div class="meta"><span class="chip">Yield <b>260</b></span><span class="chip">Diet <b>Vegetarian</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Orange jelly set in trays, with a vegan set using tinned fruit.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Jello powder</td>
+      <td class="amt">7 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Tinned Fruit</td>
+      <td class="amt">4 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Make up the jelly and set in trays.</li>
+    <li>Make a vegan version with tinned fruit — label it.</li>
+  </ol>
+  <footer><span>Vegetarian · vegan batch</span><span>Thursday 1 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-dessert">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Thai</div>
+    <h1>Coconut custard</h1>
+    <div class="meta"><span class="chip">Yield <b>260</b></span><span class="chip">Diet <b>Vegetarian</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Coconut-flavoured custard thickened with cornflour; oat-milk batch for vegans.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Milk</td>
+      <td class="amt">50 l</td>
+      <td class="prep">37</td>
+    </tr>
+    <tr>
+      <td>Oat Milk</td>
+      <td class="amt">15 l</td>
+      <td class="prep">11.1</td>
+    </tr>
+    <tr>
+      <td>Sugar</td>
+      <td class="amt">6 kg</td>
+      <td class="prep">6.0</td>
+    </tr>
+    <tr>
+      <td>Cornflour</td>
+      <td class="amt">4 kg</td>
+      <td class="prep">4.0</td>
+    </tr>
+    <tr>
+      <td>Coconut flavouring</td>
+      <td class="amt">2 ea</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Whisk cornflour and sugar with a little cold milk.</li>
+    <li>Heat the rest of the milk with coconut flavouring; whisk in the slurry and cook to thicken.</li>
+    <li>Make a separate oat-milk batch — label it.</li>
+  </ol>
+  <footer><span>Vegetarian · oat batch</span><span>Thursday 1 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-vegmain">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Texmex</div>
+    <h1>Vegan Chilli</h1>
+    <div class="meta"><span class="chip">Yield <b>200</b></span><span class="chip">Vessel <b>Kipper first!</b></span><span class="chip">Diet <b>Vegan</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Four-bean chilli in a spiced tomato base.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Onions</td>
+      <td class="amt">20 kg</td>
+      <td class="prep">Diced 1inch</td>
+    </tr>
+    <tr>
+      <td>Black beans</td>
+      <td class="amt">10 kg</td>
+      <td class="prep">Drained</td>
+    </tr>
+    <tr>
+      <td>Kidney beans</td>
+      <td class="amt">10 kg</td>
+      <td class="prep">Drained</td>
+    </tr>
+    <tr>
+      <td>Tinned Chickpeas</td>
+      <td class="amt">10 kg</td>
+      <td class="prep">Drained</td>
+    </tr>
+    <tr>
+      <td>Pinto beans</td>
+      <td class="amt">10 kg</td>
+      <td class="prep">Drained</td>
+    </tr>
+    <tr>
+      <td>Tinned Tomatoes</td>
+      <td class="amt">14 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Red Peppers</td>
+      <td class="amt">4 kg</td>
+      <td class="prep">Diced 1inch</td>
+    </tr>
+    <tr>
+      <td>Cumin</td>
+      <td class="amt">0.2 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Smoked Paprika</td>
+      <td class="amt">0.2 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Chilli Powder</td>
+      <td class="amt">0.2 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Cayenne Pepper</td>
+      <td class="amt">0.2 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Tomato Puree</td>
+      <td class="amt">2.5 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Fry onions with the spices (cumin, smoked paprika, chilli, cayenne) until golden.</li>
+    <li>Add tomato purée and tinned tomatoes; scrape the base.</li>
+    <li>Add all the beans (black, kidney, chickpea, pinto) with a little bean water.</li>
+    <li>Add red peppers; simmer to a good consistency.</li>
+    <li>Season to taste.</li>
+    <li>Loosen with stock if it gets too dry.</li>
+  </ol>
+  <footer><span>Vegan</span><span>Friday 2 · Lunch</span></footer>
+</div>
+</section>
+<section class="t-meat">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Texmex</div>
+    <h1>Chilli con carne</h1>
+    <div class="meta"><span class="chip">Yield <b>70</b></span><span class="chip">Vessel <b>Big pot</b></span><span class="chip">Diet <b>Contains beef</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Beef mince chilli with kidney beans; fresh chillies served on the side.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Onions</td>
+      <td class="amt">2.5 kg</td>
+      <td class="prep">Diced 1inch</td>
+    </tr>
+    <tr>
+      <td>Kidney beans</td>
+      <td class="amt">4.5 kg</td>
+      <td class="prep">Drained</td>
+    </tr>
+    <tr>
+      <td>Tinned Tomatoes</td>
+      <td class="amt">4.5 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Beef Mince</td>
+      <td class="amt">9 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Red Peppers</td>
+      <td class="amt">3 kg</td>
+      <td class="prep">Diced 1inch</td>
+    </tr>
+    <tr>
+      <td>Cumin</td>
+      <td class="amt">0.1 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Smoked Paprika</td>
+      <td class="amt">0.1 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Chilli Powder</td>
+      <td class="amt">0.1 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Cayenne Pepper</td>
+      <td class="amt">0.1 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Tomato Puree</td>
+      <td class="amt">1 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Red Chillies</td>
+      <td class="amt">500 g</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Fry onions with the spices (cumin, smoked paprika, chilli, cayenne) until golden.</li>
+    <li>Add the beef mince and spices, with a little bicarbonate of soda to brown it faster.</li>
+    <li>Fry until well browned.</li>
+    <li>Deglaze with stock.</li>
+    <li>Add kidney beans and tomatoes.</li>
+    <li>Simmer down; loosen with stock if dry. Serve red chillies on the side.</li>
+  </ol>
+  <footer><span>Contains beef</span><span>Friday 2 · Lunch</span></footer>
+</div>
+</section>
+<section class="t-side">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Texmex</div>
+    <h1>Rice</h1>
+    <div class="meta"><span class="chip">Yield <b>270</b></span><span class="chip">Vessel <b>Rice Cooker</b></span><span class="chip">Diet <b>Vegan</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Long-grain rice cooked with bay in the rice cooker.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Rice, Long Grain</td>
+      <td class="amt">40 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Bay Leaves</td>
+      <td class="amt">50 g</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Rinse the rice.</li>
+    <li>Cook with bay leaves in the rice cooker.</li>
+    <li>Fluff and hold warm.</li>
+  </ol>
+  <footer><span>Vegan</span><span>Friday 2 · Lunch</span></footer>
+</div>
+</section>
+<section class="t-vegmain">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Texmex</div>
+    <h1>Stuffed Peppers</h1>
+    <div class="meta"><span class="chip">Diet <b>Vegan</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Peppers halved and stuffed with a spiced rice-and-vegetable filling, then baked.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Red Peppers</td>
+      <td class="amt">5 kg</td>
+      <td class="prep">Halved, deseeded (shells)</td>
+    </tr>
+    <tr>
+      <td>Green Peppers</td>
+      <td class="amt">5 kg</td>
+      <td class="prep">Halved, deseeded (shells)</td>
+    </tr>
+    <tr>
+      <td>Courgette</td>
+      <td class="amt">5 kg</td>
+      <td class="prep">Diced (filling)</td>
+    </tr>
+    <tr>
+      <td>Onions</td>
+      <td class="amt">7 kg</td>
+      <td class="prep">Diced (filling)</td>
+    </tr>
+    <tr>
+      <td>Rice</td>
+      <td class="amt">existing</td>
+      <td class="prep">Leftover from previous day</td>
+    </tr>
+    <tr>
+      <td>Smoked Paprika</td>
+      <td class="amt">0.2 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Cumin</td>
+      <td class="amt">0.2 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Olive Oil</td>
+      <td class="amt">0.5 L</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Grated Cheese</td>
+      <td class="amt">2 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Mozzarella, vegan</td>
+      <td class="amt">1 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Halve and deseed the peppers to make shells.</li>
+    <li>Make the filling: fry onion and courgette with cumin and smoked paprika, then mix through the (leftover) rice.</li>
+    <li>Stuff the pepper halves and top with cheese.</li>
+    <li>Bake until the peppers are tender.</li>
+  </ol>
+  <footer><span>Vegan</span><span>Friday 2 · Lunch</span></footer>
+</div>
+</section>
+<section class="t-cold">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Texmex</div>
+    <h1>Coleslaw</h1>
+    <div class="meta"><span class="chip">Diet <b>Vegan</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Red &amp; white cabbage and carrot slaw with spring onion in a cider-vinegar dressing.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Red Cabbage</td>
+      <td class="amt">9 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>White Cabbage</td>
+      <td class="amt">9 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Spring Onions</td>
+      <td class="amt">2 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Carrots</td>
+      <td class="amt">9 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Apple Cider Vinegar</td>
+      <td class="amt">2 l</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Oil</td>
+      <td class="amt">3 l</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Shred the cabbages and grate the carrot (machine); slice the spring onions.</li>
+    <li>Knead the cabbage with salt until tender.</li>
+    <li>Mix in the carrot and spring onion.</li>
+    <li>Season with oil and cider vinegar; chill until service.</li>
+  </ol>
+  <footer><span>Vegan</span><span>Friday 2 · Lunch</span></footer>
+</div>
+</section>
+<section class="t-side">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Texmex</div>
+    <h1>Sides</h1>
+    <div class="meta"><span class="chip">Diet <b>Vegetarian</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Tortilla chips with sour cream (dairy + vegan).</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Tortilla Chips</td>
+      <td class="amt">15 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Sour Cream</td>
+      <td class="amt">6 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Sour Cream, Vegan</td>
+      <td class="amt">2 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Put out tortilla chips (~50g pp).</li>
+    <li>Serve sour cream — dairy and vegan, labelled.</li>
+  </ol>
+  <footer><span>Vegetarian · vegan batch</span><span>Friday 2 · Lunch</span></footer>
+</div>
+</section>
+<section class="t-side">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Lasagne</div>
+    <h1>Bechamel</h1>
+    <div class="meta"><span class="chip">Yield <b>60 litres</b></span><span class="chip">Vessel <b>topf</b></span><span class="chip">Diet <b>Vegan</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>White sauce for the lasagne.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Flour</td>
+      <td class="amt">4 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Margarine</td>
+      <td class="amt">6 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Oat Milk</td>
+      <td class="amt">46 L</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Salt</td>
+      <td class="amt">360 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>White Pepper</td>
+      <td class="amt">100 g</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Melt the margarine.</li>
+    <li>Add the flour and cook out to a roux.</li>
+    <li>Add the oat milk and stir constantly until boiled.</li>
+    <li>Season with salt and white pepper.</li>
+  </ol>
+  <footer><span>Vegan (oat milk)</span><span>Friday 2 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-vegmain">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Lasagne</div>
+    <h1>Veg Lasagne</h1>
+    <div class="meta"><span class="chip">Yield <b>210p 14 trays</b></span><span class="chip">Vessel <b>kipper</b></span><span class="chip">Diet <b>Vegetarian</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Lentil-and-vegetable ragù layered with pasta, béchamel and mozzarella, baked in two stages.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Onions</td>
+      <td class="amt">15 kg</td>
+      <td class="prep">small cubes</td>
+    </tr>
+    <tr>
+      <td>Tinned tomatoes</td>
+      <td class="amt">24 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Lasagne sheets (vg, dry)</td>
+      <td class="amt">10 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Aubergine</td>
+      <td class="amt">9 kg</td>
+      <td class="prep">thin slices</td>
+    </tr>
+    <tr>
+      <td>Courgette</td>
+      <td class="amt">9 kg</td>
+      <td class="prep">thin slices</td>
+    </tr>
+    <tr>
+      <td>Red lentils</td>
+      <td class="amt">11 kg</td>
+      <td class="prep">washed</td>
+    </tr>
+    <tr>
+      <td>Carrots</td>
+      <td class="amt">9 kg</td>
+      <td class="prep">small cubes or thin slices</td>
+    </tr>
+    <tr>
+      <td>Dried Basil</td>
+      <td class="amt">0.2 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Oregano</td>
+      <td class="amt">75 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Balsamic Vinegar</td>
+      <td class="amt">1 L</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Garlic</td>
+      <td class="amt">2 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Mozzarella, grated or pizza</td>
+      <td class="amt">10 kg</td>
+      <td class="prep">Sliced or grated</td>
+    </tr>
+    <tr>
+      <td>Mozzarella, vegan</td>
+      <td class="amt">2 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Fry onions, garlic and dried herbs until golden.</li>
+    <li>Add carrots and fry until soft.</li>
+    <li>Deglaze with balsamic.</li>
+    <li>Add tinned tomatoes and washed red lentils.</li>
+    <li>Simmer to a soft ragù.</li>
+    <li>Layer: ragù, veg slices (aubergine/courgette), pasta, béchamel; repeat.</li>
+    <li>Bake ~220°C for 30–45 min, then cool overnight.</li>
+    <li>Top with mozzarella (dairy + a vegan batch) and bake ~230°C for 10 min until browned.</li>
+  </ol>
+  <footer><span>Vegetarian · vegan cheese batch</span><span>Friday 2 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-meat">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Lasagne</div>
+    <h1>Meat Lasagne</h1>
+    <div class="meta"><span class="chip">Yield <b>90p / 6T</b></span><span class="chip">Vessel <b>4 trays</b></span><span class="chip">Diet <b>Contains beef</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Beef ragù layered with pasta, béchamel and mozzarella, baked in two stages.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Onions</td>
+      <td class="amt">8 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Garlic</td>
+      <td class="amt">3 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Tinned tomatoes</td>
+      <td class="amt">7.5 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Lasagne sheets (vg, dry)</td>
+      <td class="amt">4.5 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Beef Mince</td>
+      <td class="amt">11 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Carrots</td>
+      <td class="amt">3 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Dried Basil</td>
+      <td class="amt">0.1 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Oregano</td>
+      <td class="amt">75 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Balsamic Vinegar</td>
+      <td class="amt">1 l</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Mozzarella, grated or pizza</td>
+      <td class="amt">6 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Fry onions, garlic and herbs until golden.</li>
+    <li>Add the beef mince and brown.</li>
+    <li>Deglaze with balsamic; add tomatoes and carrots, and simmer.</li>
+    <li>Layer: ragù, pasta, béchamel; repeat.</li>
+    <li>Bake ~220°C for 30–45 min, then cool overnight.</li>
+    <li>Top with mozzarella and bake ~230°C for 10 min until browned.</li>
+  </ol>
+  <footer><span>Contains beef</span><span>Friday 2 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-vegmain">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Lasagne</div>
+    <h1>Pestopasta</h1>
+    <div class="meta"><span class="chip">Yield <b>50</b></span><span class="chip">Vessel <b>topf</b></span><span class="chip">Diet <b>Vegan</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Pasta tossed with the seed pesto; gluten-free batch cooked separately.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Pasta, Penne or Fussili</td>
+      <td class="amt">5 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Pasta, Gluten Free</td>
+      <td class="amt">1 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Boil the pasta (GF batch in a separate pan).</li>
+    <li>Toss with pesto to coat.</li>
+  </ol>
+  <footer><span>Vegan · GF batch</span><span>Friday 2 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-side">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Lasagne</div>
+    <h1>Pesto</h1>
+    <div class="meta"><span class="chip">Yield <b>50</b></span><span class="chip">Vessel <b>3kg</b></span><span class="chip">Diet <b>Vegan</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Nut-free pesto from toasted sunflower &amp; pumpkin seeds, garlic, basil and parsley.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Sunflower Seeds</td>
+      <td class="amt">0.5 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Pumpkin seeds</td>
+      <td class="amt">0.5 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Olive Oil</td>
+      <td class="amt">0.75 L</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Garlic</td>
+      <td class="amt">0.75 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Basil</td>
+      <td class="amt">0.5 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Fresh Parsley</td>
+      <td class="amt">0.3 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Toast the seeds.</li>
+    <li>Blend seeds, garlic, basil, parsley and olive oil to a coarse pesto.</li>
+    <li>Season.</li>
+  </ol>
+  <footer><span>Vegan</span><span>Friday 2 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-cold">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Lasagne</div>
+    <h1>Green salad with dressing</h1>
+    <div class="meta"><span class="chip">Diet <b>Vegan</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Leaf salad with tomatoes in a balsamic dressing.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Lettuce</td>
+      <td class="amt">80 ea</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Balsamic vinegar</td>
+      <td class="amt">2 l</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Olive Oil</td>
+      <td class="amt">2 l</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Tomatoes</td>
+      <td class="amt">10 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Whisk olive oil and balsamic into a dressing.</li>
+    <li>Keep leaves and tomatoes cold.</li>
+    <li>Dress only at service.</li>
+  </ol>
+  <footer><span>Vegan</span><span>Friday 2 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-dessert">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Lasagne</div>
+    <h1>Chocolate cake</h1>
+    <div class="meta"><span class="chip">Diet <b>Vegan</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>One-bowl vegan chocolate traybake with a cocoa-icing top.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Sugar</td>
+      <td class="amt">5.8 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Cocoa Powder</td>
+      <td class="amt">0.725 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Baking Powder</td>
+      <td class="amt">150 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Salt</td>
+      <td class="amt">75 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Flour</td>
+      <td class="amt">5.8 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Water</td>
+      <td class="amt">6.96 l</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Oil</td>
+      <td class="amt">2.9 l</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Icing Sugar</td>
+      <td class="amt">6.96 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Cocoa powder</td>
+      <td class="amt">0.725 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Mix the dry: flour, sugar, cocoa, baking powder and salt.</li>
+    <li>Add water and oil; mix to a smooth batter.</li>
+    <li>Bake in trays until a skewer comes out clean.</li>
+    <li>Cool, then ice with icing sugar + cocoa + water.</li>
+  </ol>
+  <footer><span>Vegan</span><span>Friday 2 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-vegmain">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Brazilian</div>
+    <h1>Tofu Feijoada</h1>
+    <div class="meta"><span class="chip">Yield <b>120</b></span><span class="chip">Vessel <b>topf</b></span><span class="chip">Diet <b>Vegan</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Vegan feijoada: spiced fried jackfruit crushed for a pulled texture, in a smoky black-bean stew thickened by mashing some of the beans.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Jackfruit, tinned</td>
+      <td class="amt">25 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Black Beans</td>
+      <td class="amt">40 kg</td>
+      <td class="prep">Drained, 1/3-1/2 mashed</td>
+    </tr>
+    <tr>
+      <td>Onions</td>
+      <td class="amt">13 kg</td>
+      <td class="prep">Chopped large</td>
+    </tr>
+    <tr>
+      <td>Garlic</td>
+      <td class="amt">1 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Smoked Paprika</td>
+      <td class="amt">0.2 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Cumin</td>
+      <td class="amt">0.1 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Bay Leaves</td>
+      <td class="amt">0.1 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Stock, vegetable, homemade</td>
+      <td class="amt">20 L</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Red Peppers</td>
+      <td class="amt">12 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Liquid smoke</td>
+      <td class="amt">0.5 L</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Lime Juice, Bottle</td>
+      <td class="amt">1.5 L</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Dust the jackfruit with cumin and paprika and fry in plenty of oil until browned; set aside.</li>
+    <li>Fry the onions until soft; add garlic and smoked paprika.</li>
+    <li>Add the peppers and fry.</li>
+    <li>Return the jackfruit and crush with a potato masher to get a fibrous, pulled texture.</li>
+    <li>Add bay leaves and stock; simmer to meld.</li>
+    <li>Drain the black beans (keep the liquid); mash about a third, add all the beans and simmer to thicken.</li>
+    <li>Season with liquid smoke, salt and lime; loosen with the bean liquid if needed.</li>
+  </ol>
+  <footer><span>Vegan</span><span>Saturday 3 · Lunch</span></footer>
+</div>
+</section>
+<section class="t-meat">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Brazilian</div>
+    <h1>Pork Feijoada</h1>
+    <div class="meta"><span class="chip">Yield <b>70</b></span><span class="chip">Vessel <b>kipper and finish in oven</b></span><span class="chip">Diet <b>Contains pork</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Pork-shoulder and Polish-sausage black-bean stew, finished in the oven.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Polish Sausages</td>
+      <td class="amt">7 kg</td>
+      <td class="prep">Sliced into 0.5cm rounds</td>
+    </tr>
+    <tr>
+      <td>Pork Shoulder</td>
+      <td class="amt">7 kg</td>
+      <td class="prep">1-2 inch cubes</td>
+    </tr>
+    <tr>
+      <td>Black Beans</td>
+      <td class="amt">15 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Onions</td>
+      <td class="amt">10 kg</td>
+      <td class="prep">Chopped large (2 inch)</td>
+    </tr>
+    <tr>
+      <td>Red Peppers</td>
+      <td class="amt">7 Kg</td>
+      <td class="prep">Chopped medium (1 inch)</td>
+    </tr>
+    <tr>
+      <td>Garlic</td>
+      <td class="amt">0.5 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Bay Leaves</td>
+      <td class="amt">0.1 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Stock</td>
+      <td class="amt">10 L</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Brown the sausage and pork and set aside.</li>
+    <li>Fry onions until soft, add garlic.</li>
+    <li>Add the peppers and fry.</li>
+    <li>Return the meat; add bay leaves and stock, simmer to meld.</li>
+    <li>Drain the black beans (keep the liquid); mash a third, add all the beans and simmer to thicken.</li>
+    <li>Season with salt, pepper and a splash of lime.</li>
+    <li>Loosen with the reserved bean liquid if needed.</li>
+  </ol>
+  <footer><span>Contains pork</span><span>Saturday 3 · Lunch</span></footer>
+</div>
+</section>
+<section class="t-vegmain">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Brazilian</div>
+    <h1>Brazilian Cottage Pie</h1>
+    <div class="meta"><span class="chip">Yield <b>110</b></span><span class="chip">Vessel <b>9T</b></span><span class="chip">Diet <b>Vegan</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Vegetable and soy-protein filling under a butternut-and-potato mash, topped with breadcrumbs and baked. Also called &lt;i&gt;Vegetable Escondidinho&lt;/i&gt;.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Butternut Squash</td>
+      <td class="amt">10 kg</td>
+      <td class="prep">Roasted, Mashed</td>
+    </tr>
+    <tr>
+      <td>Potatoes</td>
+      <td class="amt">12 kg</td>
+      <td class="prep">Cooked, Mashed</td>
+    </tr>
+    <tr>
+      <td>Vegetable Stock</td>
+      <td class="amt">3 l</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Oil</td>
+      <td class="amt">700 ml</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Salt</td>
+      <td class="amt">120 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Pepper</td>
+      <td class="amt">30 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Breadcrumbs (Leftover)</td>
+      <td class="amt">2 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Onions</td>
+      <td class="amt">4 kg</td>
+      <td class="prep">Diced 1 inch</td>
+    </tr>
+    <tr>
+      <td>Garlic</td>
+      <td class="amt">300 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Carrots</td>
+      <td class="amt">5 kg</td>
+      <td class="prep">Diced 1 inch</td>
+    </tr>
+    <tr>
+      <td>Red Peppers</td>
+      <td class="amt">5 kg</td>
+      <td class="prep">Diced 1 inch</td>
+    </tr>
+    <tr>
+      <td>Courgette</td>
+      <td class="amt">4 kg</td>
+      <td class="prep">Diced 1 inch</td>
+    </tr>
+    <tr>
+      <td>Mushrooms</td>
+      <td class="amt">5 kg</td>
+      <td class="prep">Sliced</td>
+    </tr>
+    <tr>
+      <td>Frozen Sweetcorn</td>
+      <td class="amt">3 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Tinned Tomatoes</td>
+      <td class="amt">5 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Tomato Puree</td>
+      <td class="amt">1 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Soy Protein</td>
+      <td class="amt">3 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Vegetable Stock</td>
+      <td class="amt">3 l</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Lime Juice, Bottle</td>
+      <td class="amt">0.5 l</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Parsley, fresh</td>
+      <td class="amt">600 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Cumin</td>
+      <td class="amt">200 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Smoked Paprika</td>
+      <td class="amt">200 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Ground Coriander</td>
+      <td class="amt">150 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Oregano</td>
+      <td class="amt">80 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Pepper</td>
+      <td class="amt">50 g</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Roast the squash and boil the potatoes; mash together with stock and season well.</li>
+    <li>Sweat and cook down the filling: onion, garlic, carrot, pepper, courgette, mushroom, sweetcorn, soy protein, tomato and spices. Finish with lime and parsley.</li>
+    <li>Top the filling with the mash, then breadcrumbs.</li>
+    <li>Bake until golden.</li>
+  </ol>
+  <footer><span>Vegan</span><span>Saturday 3 · Lunch</span></footer>
+</div>
+</section>
+<section class="t-side">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Brazilian</div>
+    <h1>Fried Polenta</h1>
+    <div class="meta"><span class="chip">Yield <b>190</b></span><span class="chip">Vessel <b>kipper</b></span><span class="chip">Diet <b>Vegan</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Set polenta cut and fried crisp.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Polenta</td>
+      <td class="amt">10 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Cook the polenta and season with salt, pepper and engevita.</li>
+    <li>Spread into oiled gastros and chill until firm.</li>
+    <li>Turn out, slice, and fry until crisp and golden.</li>
+  </ol>
+  <footer><span>Vegan</span><span>Saturday 3 · Lunch</span></footer>
+</div>
+</section>
+<section class="t-cold">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Brazilian</div>
+    <h1>Pico de Gallo</h1>
+    <div class="meta"><span class="chip">Yield <b>190</b></span><span class="chip">Diet <b>Vegan</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Fresh salsa of tomato, red onion, jalapeño, garlic and coriander with lime.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Red onions</td>
+      <td class="amt">4 kg</td>
+      <td class="prep">Chopped very fine</td>
+    </tr>
+    <tr>
+      <td>Tomatoes</td>
+      <td class="amt">6 kg</td>
+      <td class="prep">Chopped very fine</td>
+    </tr>
+    <tr>
+      <td>Tinned jalapenos (fresh would be awesome!)</td>
+      <td class="amt">3 kg</td>
+      <td class="prep">Chopped very fine</td>
+    </tr>
+    <tr>
+      <td>Garlic</td>
+      <td class="amt">1 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Coriander Fresh</td>
+      <td class="amt">0.5 kg</td>
+      <td class="prep">Chopped fine</td>
+    </tr>
+    <tr>
+      <td>Limes</td>
+      <td class="amt">0.5 box</td>
+      <td class="prep">Squeezed</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Finely chop the tomatoes, red onion, jalapeños and coriander, and combine.</li>
+    <li>Season to taste with lime juice and a little jalapeño pickle juice.</li>
+    <li>Keep a separate portion without jalapeños. Keep cold until service.</li>
+  </ol>
+  <footer><span>Vegan</span><span>Saturday 3 · Lunch</span></footer>
+</div>
+</section>
+<section class="t-side">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Chinese</div>
+    <h1>Sweet &amp; Sour Sauce</h1>
+    <div class="meta"><span class="chip">Yield <b>250</b></span><span class="chip">Diet <b>Vegan</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Takeaway-style sweet &amp; sour: pineapple juice, brown sugar, ketchup, soy and rice vinegar simmered and thickened with starch, with pineapple and vegetables through it.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Onions</td>
+      <td class="amt">20 kg</td>
+      <td class="prep">big cubes</td>
+    </tr>
+    <tr>
+      <td>Red Peppers</td>
+      <td class="amt">20 kg</td>
+      <td class="prep">1inch squares</td>
+    </tr>
+    <tr>
+      <td>Carrots</td>
+      <td class="amt">20 kg</td>
+      <td class="prep">1inch cubes</td>
+    </tr>
+    <tr>
+      <td>Pineapple</td>
+      <td class="amt">20 kg</td>
+      <td class="prep">peeled, cubed (1inch)</td>
+    </tr>
+    <tr>
+      <td>Spring Onions</td>
+      <td class="amt">7.5 kg</td>
+      <td class="prep">chopped coarse</td>
+    </tr>
+    <tr>
+      <td>Pineapple Juice</td>
+      <td class="amt">15 L</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Sugar, light brown soft</td>
+      <td class="amt">7.5 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Ketchup</td>
+      <td class="amt">6 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Soy Sauce</td>
+      <td class="amt">2.5 L</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Rice Wine Vinegar</td>
+      <td class="amt">3.75 L</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Potato Starch</td>
+      <td class="amt">1.5 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Steam the vegetables (peppers, carrots, onion).</li>
+    <li>Put everything except the starch in a pot — pineapple juice, brown sugar, ketchup, soy and rice wine vinegar — and bring to a simmer, whisking.</li>
+    <li>Make a potato-starch (or cornflour) slurry with water; whisk in and cook until thickened and glossy.</li>
+    <li>Fold the vegetables and pineapple through; finish with spring onions.</li>
+  </ol>
+  <footer><span>Vegan</span><span>Source: <a href="https://www.bbcgoodfood.com/recipes/sweet-sour-sauce">bbcgoodfood.com</a></span><span>Saturday 3 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-vegmain">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Chinese</div>
+    <h1>Sweet &amp; Sour Tofu</h1>
+    <div class="meta"><span class="chip">Yield <b>150</b></span><span class="chip">Diet <b>Vegan</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Cornflour-dusted baked tofu coated in the sweet &amp; sour sauce.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Tofu</td>
+      <td class="amt">23 kg</td>
+      <td class="prep">Cubes</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Salt the tofu, dust with cornflour and bake until crisp.</li>
+    <li>Coat in the sweet &amp; sour sauce and vegetables at service.</li>
+  </ol>
+  <footer><span>Vegan</span><span>Saturday 3 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-meat">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Chinese</div>
+    <h1>Sweet &amp; Sour Chicken</h1>
+    <div class="meta"><span class="chip">Yield <b>100</b></span><span class="chip">Vessel <b>oven</b></span><span class="chip">Diet <b>Meat</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Baked or fried chicken thigh coated in the sweet &amp; sour sauce.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Chicken Thighs Diced</td>
+      <td class="amt">15 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Salt the chicken; bake or fry until cooked.</li>
+    <li>Steam the veg (peppers, carrots, onion, pineapple).</li>
+    <li>Simmer the sauce and thicken with a starch slurry.</li>
+    <li>Fold in the chicken and veg; finish with spring onions.</li>
+  </ol>
+  <footer><span>Meat</span><span>Saturday 3 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-vegmain">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Chinese</div>
+    <h1>NR 86 (Chow Mein)</h1>
+    <div class="meta"><span class="chip">Yield <b>100</b></span><span class="chip">Vessel <b>kipper</b></span><span class="chip">Diet <b>Vegetarian</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Stir-fried egg noodles with vegetables in a soy and mushroom stir-fry sauce.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Egg Noodles, dry</td>
+      <td class="amt">8 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Mushroom Stir Fry Sauce</td>
+      <td class="amt">2.4 L</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Soy Sauce, Dark</td>
+      <td class="amt">1.2 L</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Soy Sauce</td>
+      <td class="amt">1.2 L</td>
+      <td class="prep">All sauces mixed together</td>
+    </tr>
+    <tr>
+      <td>Carrots</td>
+      <td class="amt">5 kg</td>
+      <td class="prep">grated with machine</td>
+    </tr>
+    <tr>
+      <td>Cabbage</td>
+      <td class="amt">3 kg</td>
+      <td class="prep">medium machine cutting disc</td>
+    </tr>
+    <tr>
+      <td>Onions</td>
+      <td class="amt">8 kg</td>
+      <td class="prep">medium machine cutting disc</td>
+    </tr>
+    <tr>
+      <td>Green Peppers</td>
+      <td class="amt">6 kg</td>
+      <td class="prep">de seeded, no white, thin strips</td>
+    </tr>
+    <tr>
+      <td>Spring Onions</td>
+      <td class="amt">2 kg</td>
+      <td class="prep">Sliced long ways but fast ways</td>
+    </tr>
+    <tr>
+      <td>Toasted Sesame Oil</td>
+      <td class="amt">0.5 l</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>MSG</td>
+      <td class="amt">50 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Garlic</td>
+      <td class="amt">0.5 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Mushrooms</td>
+      <td class="amt">7 kg</td>
+      <td class="prep">quartered</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Fry onions with dried chilli over high heat.</li>
+    <li>Add the veg (carrot, cabbage, pepper, mushroom) and keep it crisp.</li>
+    <li>Add the cooked noodles and sesame oil; toss.</li>
+    <li>Add the soy sauces and stir-fry sauce; finish with spring onions.</li>
+  </ol>
+  <footer><span>Vegetarian · egg &amp; soy</span><span>Saturday 3 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-cold">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Chinese</div>
+    <h1>Asian Cucumber Salad</h1>
+    <div class="meta"><span class="chip">Diet <b>Vegan</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Salted cucumber in a garlic-chilli-sesame dressing with nori and sriracha.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Cucumber</td>
+      <td class="amt">50 ea</td>
+      <td class="prep">Machine Slice</td>
+    </tr>
+    <tr>
+      <td>Toasted Sesame Oil</td>
+      <td class="amt">1 L</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Chilli Flakes</td>
+      <td class="amt">100 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Rice Wine Vinegar</td>
+      <td class="amt">200 ml</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Salt</td>
+      <td class="amt">300 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Sugar, Brown</td>
+      <td class="amt">250 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Garlic</td>
+      <td class="amt">3 ea</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Sesame Seeds</td>
+      <td class="amt">350 g</td>
+      <td class="prep">Dry toast in pan</td>
+    </tr>
+    <tr>
+      <td>Nori</td>
+      <td class="amt">65 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Sriracha Sauce</td>
+      <td class="amt">150 ml</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Soy Sauce</td>
+      <td class="amt">0.5 l</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Slice the cucumbers as fine as possible; salt and sugar, then drain.</li>
+    <li>Mince the garlic fine (or use roast purée).</li>
+    <li>Toast the sesame seeds; cut nori into 1cm flakes.</li>
+    <li>Combine garlic, chilli flakes, nori, sriracha, vinegar and soy.</li>
+    <li>Scatter the hot toasted seeds over the garlic.</li>
+    <li>Heat the sesame oil and pour over to bloom the aromatics.</li>
+    <li>Toss the cucumbers through; taste and adjust.</li>
+  </ol>
+  <footer><span>Vegan</span><span>Saturday 3 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-side">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Chinese</div>
+    <h1>Rice</h1>
+    <div class="meta"><span class="chip">Diet <b>Vegan</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Jasmine rice cooked in the rice cookers.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Rice, Jasmine</td>
+      <td class="amt">25 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Rinse the jasmine rice.</li>
+    <li>Cook in the rice cookers.</li>
+    <li>Fluff and hold warm.</li>
+  </ol>
+  <footer><span>Vegan</span><span>Saturday 3 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-dessert">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Chinese</div>
+    <h1>Arroz con leche</h1>
+    <div class="meta"><span class="chip">Diet <b>Vegetarian</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Rice pudding cooked in milk with cinnamon, sugar and lemon zest, thickened with cornflour; a soy/oat batch for vegans.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Rice, Long Grain</td>
+      <td class="amt">4.8 kg</td>
+      <td class="prep">Wash thoroughly</td>
+    </tr>
+    <tr>
+      <td>Milk</td>
+      <td class="amt">24 l</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>GF Oat Milk</td>
+      <td class="amt">6 l</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Cinnamon</td>
+      <td class="amt">140 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Sugar</td>
+      <td class="amt">4.5 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Lemons</td>
+      <td class="amt">23 ea</td>
+      <td class="prep">Rasp for zest to add</td>
+    </tr>
+    <tr>
+      <td>Cornflour</td>
+      <td class="amt">800 g</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Wash the long-grain rice thoroughly and cook in the rice cooker.</li>
+    <li>Warm the milk with cinnamon, sugar and lemon zest.</li>
+    <li>Combine with the rice; thicken with a cornflour-and-cold-milk slurry.</li>
+    <li>Make a separate soy/oat-milk batch — label it.</li>
+  </ol>
+  <footer><span>Vegetarian · vegan batch</span><span>Saturday 3 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-vegmain">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Burgers</div>
+    <h1>Vegan Burgers</h1>
+    <div class="meta"><span class="chip">Yield <b>320</b></span><span class="chip">Vessel <b>kipper and hot hold</b></span><span class="chip">Diet <b>Vegan</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Secret Mecklenbörger recipe — to be filled in by hand.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Brown lentils</td>
+      <td class="amt">7 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Oats</td>
+      <td class="amt">7 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Onions</td>
+      <td class="amt">5 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Red Cabbage</td>
+      <td class="amt">8 ea</td>
+      <td class="prep">Sliced &amp; cooked down</td>
+    </tr>
+    <tr>
+      <td>Sauerkraut</td>
+      <td class="amt">7 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Marjoram</td>
+      <td class="amt">400 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Oregano</td>
+      <td class="amt">400 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Garlic powder</td>
+      <td class="amt">400 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Paprika</td>
+      <td class="amt">400 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Salt</td>
+      <td class="amt">400 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Pepper</td>
+      <td class="amt">400 g</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+
+  </ol>
+  <footer><span>Vegan</span><span>Sunday 4 · Lunch</span></footer>
+</div>
+</section>
+<section class="t-meat">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Burgers</div>
+    <h1>Beef Burgers</h1>
+    <div class="meta"><span class="chip">Yield <b>90</b></span><span class="chip">Diet <b>Contains beef</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Frozen beef burgers, BBQ-glazed and baked.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Burgers</td>
+      <td class="amt">90 ea</td>
+      <td class="prep">Defrost in fridge</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Take the burgers from the fridge.</li>
+    <li>Brush with BBQ sauce.</li>
+    <li>Bake until cooked through.</li>
+    <li>(Optional: slow-bake a batch after lunch service.)</li>
+  </ol>
+  <footer><span>Contains beef</span><span>Sunday 4 · Lunch</span></footer>
+</div>
+</section>
+<section class="t-side">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Burgers</div>
+    <h1>Onion Rings</h1>
+    <div class="meta"><span class="chip">Diet <b>Vegan</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Onion rings dipped in a milk-and-flour slurry, coated in panko and deep-fried.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Onions</td>
+      <td class="amt">20 kg</td>
+      <td class="prep">Sliced into wide rings</td>
+    </tr>
+    <tr>
+      <td>GF Oat Milk</td>
+      <td class="amt">5 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Flour</td>
+      <td class="amt">5 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Paprika</td>
+      <td class="amt">0.3 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Garlic Powder</td>
+      <td class="amt">0.3 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Panko Breadcrumbs</td>
+      <td class="amt">3 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Make a 1:1 slurry of oat milk and flour with paprika and garlic powder. Start on the thin side and thicken as you go.</li>
+    <li>Dip the onion rings in the slurry, then coat in panko.</li>
+    <li>Deep-fry in the kipper until golden.</li>
+  </ol>
+  <footer><span>Vegan</span><span>Sunday 4 · Lunch</span></footer>
+</div>
+</section>
+<section class="t-side">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Burgers</div>
+    <h1>Potato Wedges</h1>
+    <div class="meta"><span class="chip">Diet <b>Vegan</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Skin-on wedges in smoked-paprika oil, roasted.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Potatoes</td>
+      <td class="amt">70 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Smoked Paprika</td>
+      <td class="amt">0.5 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Olive Oil</td>
+      <td class="amt">1 l</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Toss the potatoes in oil and smoked paprika.</li>
+    <li>Roast until crisp.</li>
+  </ol>
+  <footer><span>Vegan</span><span>Sunday 4 · Lunch</span></footer>
+</div>
+</section>
+<section class="t-side">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Burgers</div>
+    <h1>Sides</h1>
+    <div class="meta"><span class="chip">Diet <b>Assembly</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Burger assembly: buns, cheese, sliced and fried onions, lettuce, tomato and sauces.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Burger Buns</td>
+      <td class="amt">512 ea</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Cheese Slices</td>
+      <td class="amt">400 ea</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Red Onions</td>
+      <td class="amt">6 kg</td>
+      <td class="prep">Slice into thin rings</td>
+    </tr>
+    <tr>
+      <td>Onions</td>
+      <td class="amt">10 kg</td>
+      <td class="prep">Sweated down (use the middle bits left over from making onion rings)</td>
+    </tr>
+    <tr>
+      <td>Lettuce</td>
+      <td class="amt">7 ea</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Tomatoes</td>
+      <td class="amt">3 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Ketchup</td>
+      <td class="amt">3 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Mayo</td>
+      <td class="amt">2 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Mayo, Vegan</td>
+      <td class="amt">1 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Mustard</td>
+      <td class="amt">1 kg</td>
+      <td class="prep">Plus any leftover dips</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Set up the assembly line: buns, cheese slices, thin-sliced red onion, sweated onions, lettuce and tomato.</li>
+    <li>Put out ketchup, mayo (dairy + vegan), mustard and any leftover dips.</li>
+  </ol>
+  <footer><span>Assembly</span><span>Sunday 4 · Lunch</span></footer>
+</div>
+</section>
+<section class="t-vegmain">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Indian</div>
+    <h1>Tarka Dal</h1>
+    <div class="meta"><span class="chip">Vessel <b>150.0</b></span><span class="chip">Diet <b>Vegan</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Chickpea-and-red-lentil dal finished with a bloomed-spice tarka.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Dried Chickpeas</td>
+      <td class="amt">18 kg</td>
+      <td class="prep">wash before use</td>
+    </tr>
+    <tr>
+      <td>Red Lentils</td>
+      <td class="amt">18 kg</td>
+      <td class="prep">wash before use</td>
+    </tr>
+    <tr>
+      <td>Fresh Tomatoes</td>
+      <td class="amt">10 kg</td>
+      <td class="prep">de seeded, de juiced, cubed, save juice</td>
+    </tr>
+    <tr>
+      <td>Onions</td>
+      <td class="amt">24 kg</td>
+      <td class="prep">medium cubes</td>
+    </tr>
+    <tr>
+      <td>Green chillies</td>
+      <td class="amt">1.2 kg</td>
+      <td class="prep">de seeded and cut up</td>
+    </tr>
+    <tr>
+      <td>Red chillies</td>
+      <td class="amt">1.2 kg</td>
+      <td class="prep">de seeded and cut up</td>
+    </tr>
+    <tr>
+      <td>Oil</td>
+      <td class="amt">1.5 l</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Garam Masala</td>
+      <td class="amt">0.3 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Fennel Seeds</td>
+      <td class="amt">0.15 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Cumin seeds</td>
+      <td class="amt">0.15 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Garlic</td>
+      <td class="amt">2.4 kg</td>
+      <td class="prep">half roasted</td>
+    </tr>
+    <tr>
+      <td>Turmeric</td>
+      <td class="amt">0.15 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Coriander seeds</td>
+      <td class="amt">0.3 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Fresh Coriander</td>
+      <td class="amt">500 g</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Wash the lentils and chickpeas until the water runs clear.</li>
+    <li>Simmer lentils with turmeric and chillies until soft.</li>
+    <li>In a separate pan, bloom cumin, fennel and coriander seeds with dried chilli in oil.</li>
+    <li>Add onion and garlic; fry until translucent.</li>
+    <li>Add tomatoes and garam masala; cook down.</li>
+    <li>Stir the tarka into the lentils; finish with fresh coriander.</li>
+  </ol>
+  <footer><span>Vegan</span><span>Sunday 4 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-vegmain">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Indian</div>
+    <h1>Mattar Paneer</h1>
+    <div class="meta"><span class="chip">Yield <b>100</b></span><span class="chip">Vessel <b>kipper</b></span><span class="chip">Diet <b>Vegetarian</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Peas and paneer in a spiced onion-tomato masala finished with cream.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Onions</td>
+      <td class="amt">16 kg</td>
+      <td class="prep">Sliced</td>
+    </tr>
+    <tr>
+      <td>Garlic Paste</td>
+      <td class="amt">360 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Ginger Paste</td>
+      <td class="amt">400 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Kashmir Chilli Powder</td>
+      <td class="amt">44 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Tomato puree</td>
+      <td class="amt">360 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Tinned Tomatoes</td>
+      <td class="amt">7.5 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Tomato puree</td>
+      <td class="amt">720 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Sugar</td>
+      <td class="amt">40 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Garam Masala</td>
+      <td class="amt">16 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Cumin</td>
+      <td class="amt">12 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Frozen Peas</td>
+      <td class="amt">10 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Paneer</td>
+      <td class="amt">10 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Cream, Double</td>
+      <td class="amt">2 L</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Caramelise the onions deep brown.</li>
+    <li>Add garlic and ginger paste; fry golden.</li>
+    <li>Add chilli powder, tomato purée and salt.</li>
+    <li>Add tinned tomatoes and cook until broken down.</li>
+    <li>Add garam masala, cumin and sugar; simmer to a masala base.</li>
+    <li>Reheat the masala; add peas and a little water, cook through.</li>
+    <li>Add the paneer and simmer.</li>
+    <li>Stir in the cream and heat gently — don't boil.</li>
+  </ol>
+  <footer><span>Vegetarian · contains dairy</span><span>Sunday 4 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-vegmain">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Indian</div>
+    <h1>Butter Chickpea Chicken</h1>
+    <div class="meta"><span class="chip">Yield <b>100</b></span><span class="chip">Diet <b>Veg</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Creamy butter-masala: chickpeas in the sauce for the veg option, marinated chicken stirred into the meat portions.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Chicken Thighs Diced</td>
+      <td class="amt">15 kg</td>
+      <td class="prep">Cubed 1 inch</td>
+    </tr>
+    <tr>
+      <td>Yoghurt</td>
+      <td class="amt">2.5 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Lemon Juice</td>
+      <td class="amt">300 ml</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Turmeric</td>
+      <td class="amt">70 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Kashmir Chilli Powder</td>
+      <td class="amt">40 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Cumin</td>
+      <td class="amt">70 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Garam Masala</td>
+      <td class="amt">100 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Garlic</td>
+      <td class="amt">300 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Ginger Paste</td>
+      <td class="amt">300 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Tinned Chickpeas</td>
+      <td class="amt">15 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Onions</td>
+      <td class="amt">30 kg</td>
+      <td class="prep">Chopped 1-2cm</td>
+    </tr>
+    <tr>
+      <td>Oil</td>
+      <td class="amt">1 l</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Tomato Puree</td>
+      <td class="amt">1 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Tinned Tomatoes</td>
+      <td class="amt">10 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Cream, Double</td>
+      <td class="amt">10 l</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Fenugreek Leaves</td>
+      <td class="amt">100 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Garam Masala</td>
+      <td class="amt">100 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Kashmir Chilli Powder</td>
+      <td class="amt">100 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Garlic</td>
+      <td class="amt">200 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Ginger Paste</td>
+      <td class="amt">300 g</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Make the marinade: yoghurt, lemon, turmeric, chilli, cumin, garam masala, garlic and ginger.</li>
+    <li>Marinate the chicken overnight.</li>
+    <li>Cook the chicken (fry or oven), reserving the juices.</li>
+    <li>Fry onions until soft; add ginger, garlic, garam masala, cumin and chilli until fragrant.</li>
+    <li>Add tomato purée and cook until darkened; add the tomatoes and simmer.</li>
+    <li>Blend smooth; stir in the cream and fenugreek (kasoori methi); taste.</li>
+    <li>Add drained chickpeas to the base for the veg option; stir the chicken into the meat portions.</li>
+  </ol>
+  <div class="note">Sauce technique from Delish (butter chickpeas) &amp; RecipeTin Eats (butter chicken) — PDFs in the project folder. <b>Baking soda</b> helps soften the chickpeas; darken the tomato purée well before adding tomatoes.</div>
+  <footer><span>Veg (chickpea) + meat batch</span><span>Source: <a href="https://www.delish.com/cooking/a45877598/indian-butter-chickpeas-recipe/">delish.com</a></span><span>Sunday 4 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-side">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Indian</div>
+    <h1>Rice</h1>
+    <div class="meta"><span class="chip">Vessel <b>rice cooker</b></span><span class="chip">Diet <b>Vegan</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Basmati rice cooked in the rice cookers.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Rice, Basmati</td>
+      <td class="amt">35 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Rinse the basmati rice.</li>
+    <li>Cook in the rice cookers.</li>
+    <li>Fluff and hold warm.</li>
+  </ol>
+  <footer><span>Vegan</span><span>Sunday 4 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-dessert">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Indian</div>
+    <h1>Custard</h1>
+    <div class="meta"><span class="chip">Yield <b>350</b></span><span class="chip">Vessel <b>Kipper</b></span><span class="chip">Diet <b>Vegetarian</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Custard-powder custard with a separate oat-milk batch.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Milk</td>
+      <td class="amt">100 l</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Oat Milk</td>
+      <td class="amt">20 l</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Sugar</td>
+      <td class="amt">7 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Custard Powder</td>
+      <td class="amt">7 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Whisk custard powder and sugar with a little cold milk to a paste.</li>
+    <li>Heat the rest of the milk, whisk in the paste and cook until thickened.</li>
+    <li>Make a separate oat-milk batch — label it.</li>
+  </ol>
+  <footer><span>Vegetarian · oat batch</span><span>Sunday 4 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-dessert">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Indian</div>
+    <h1>Crumble</h1>
+    <div class="meta"><span class="chip">Yield <b>350</b></span><span class="chip">Vessel <b>Oven</b></span><span class="chip">Diet <b>Vegetarian</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Deconstructed crumble — the topping is baked separately until crisp and the apples are stewed, then served together.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Margarine</td>
+      <td class="amt">8 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Flour</td>
+      <td class="amt">10 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Oats</td>
+      <td class="amt">5 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Sugar</td>
+      <td class="amt">10 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Apples</td>
+      <td class="amt">100 kg</td>
+      <td class="prep">Peeled and cubed into 2cm</td>
+    </tr>
+    <tr>
+      <td>Sugar</td>
+      <td class="amt">7.5 kg</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Cinnamon</td>
+      <td class="amt">300 g</td>
+      <td class="prep">—</td>
+    </tr>
+    <tr>
+      <td>Nutmeg</td>
+      <td class="amt">75 g</td>
+      <td class="prep">—</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Make the crumble: melt the margarine and mix through the flour, oats, sugar, cinnamon and nutmeg.</li>
+    <li>Spread into GNs and bake at 200°C until dry and crisp.</li>
+    <li>Put the apples in a big pot or kipper with sugar to taste.</li>
+    <li>Sweat until softened (not too long); add a splash of water if needed.</li>
+    <li>Serve the stewed apples with the crisp crumble on top.</li>
+  </ol>
+  <footer><span>Vegetarian</span><span>Sunday 4 · Dinner</span></footer>
+</div>
+</section>
+<section class="t-meat">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Gumbo</div>
+    <h1>Leftover Gumbo</h1>
+    <div class="meta"><span class="chip">Diet <b>Uses leftovers</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>End-of-week gumbo built from the week's leftover proteins and vegetables in a roux-thickened stock, over rice.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td colspan="3" class="prep">Uses leftovers / see notes</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Make a roux (fat + flour) cooked to a deep brown.</li>
+    <li>Add onion, pepper and celery if available; cook down.</li>
+    <li>Add leftover proteins and vegetables.</li>
+    <li>Add stock and simmer to a thick, savoury gumbo.</li>
+    <li>Season; serve over rice.</li>
+  </ol>
+  <div class="note">Flexible — built from whatever is left. Keep quantities to taste.</div>
+  <footer><span>Uses leftovers</span><span>Monday 5 · Lunch</span></footer>
+</div>
+</section>
+<section class="t-vegmain">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Gumbo</div>
+    <h1>Leftover Gumbo (vg)</h1>
+    <div class="meta"><span class="chip">Diet <b>Vegan</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Vegan gumbo from leftover vegetables and beans in a roux-thickened vegetable stock, over rice.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td colspan="3" class="prep">Uses leftovers / see notes</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Make an oil-based roux cooked to a deep brown.</li>
+    <li>Add onion, pepper and celery if available; cook down.</li>
+    <li>Add leftover vegetables and beans.</li>
+    <li>Add vegetable stock and simmer to thicken.</li>
+    <li>Season; serve over rice.</li>
+  </ol>
+  <div class="note">Flexible — built from whatever is left. Keep separate from the meat gumbo.</div>
+  <footer><span>Vegan · uses leftovers</span><span>Monday 5 · Lunch</span></footer>
+</div>
+</section>
+<section class="t-side">
+<div class="page">
+  <header>
+    <div class="kicker">EMF Kitchen 2026 · Leftovers</div>
+    <h1>Leftovers (any)</h1>
+    <div class="meta"><span class="chip">Diet <b>Mixed</b></span></div>
+  </header>
+  <div class="overview"><b>Recipe overview</b><br>Final service: reheat and serve the week's remaining dishes, kept separate by diet.</div>
+  <h2>Ingredients &amp; Prep</h2>
+  <table>
+    <thead>
+    <tr>
+      <th style="width:44%">Ingredient</th>
+      <th style="width:22%">Amount</th>
+      <th style="width:34%">Prep</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td colspan="3" class="prep">Uses leftovers / see notes</td>
+    </tr>
+    </tbody>
+  </table>
+  <h2>Method</h2>
+  <ol class="method">
+    <li>Sort the leftovers and keep veg/vegan separate from meat.</li>
+    <li>Reheat thoroughly to piping hot throughout, stirring; do not reheat any item more than once.</li>
+    <li>Refresh salads and cold sides; keep cold items cold.</li>
+    <li>Serve, and label everything by diet.</li>
+  </ol>
+  <footer><span>Mixed · uses leftovers</span><span>Monday 5 · Dinner</span></footer>
+</div>
+</section>
+</body>
+</html>
